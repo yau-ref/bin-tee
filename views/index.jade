@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1 Уходи не плачь
+  br
+  button#showIt.btn.btn-primary.btn-large Показать оценки
+  div#lists.lists
+    select#users
+    br
+    ul#marks.marks
+    form#addmarkForm.addmarkForm
+      input(placeholder="Предмет")#subj
+      br
+      input(placeholder="Оценка")#markVal
+    button#addMark.btn.btn-default +
