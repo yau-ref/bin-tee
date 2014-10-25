@@ -1,25 +1,47 @@
 body{
   color: #000;
-/*  background: url(/images/bg.jpg) no-repeat center center fixed; */
+/*  background: url(/images/bg.jpg) no-repeat center center fixed;
+
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+*/  
+
+  background-color: #eee;
+
 }
 
 .header{
   width: 100%;
   height: 50px;
   margin: auto;
-  background: red;
+  background: #333;
+  box-shadow: 0 0 5px rgba(0,0,0,0.9);
 }
 
 .content{
   display: block;
   width: 700px;
-  height: 500px;
   margin: auto;
   padding: 20px;
-  background: #000;
+  background: #fff;
 }
 
+.quote{
+  padding: 0px;
+  margin: 0px;
+  margin-bottom: 10px;
+}
+
+.quote .title{
+  width: 100%;
+  margin: 0px;
+  background: #ccc;
+}
+
+.quote .text{
+  width: 100%;
+  margin: 0px;
+  background: #eee;
+}
