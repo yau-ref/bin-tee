@@ -33,6 +33,14 @@ a:hover{
   background: #fff;  
   font-size: 25px;
   color: #333;
+  
+}
+
+.logo{
+  padding-left: 2px;
+  color: #000;
+  font-weight: bold;
+  float: left;
 }
 
 .menu{
