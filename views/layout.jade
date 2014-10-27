@@ -9,9 +9,11 @@ html
     script(type="text/javascript" src="javascripts/actions.js")
   body
     div.header
-      i.fa.fa-pencil
-      i.fa.fa-asterisk
-      i.fa.fa-star
-    div.content
+      div.centered.menu
+        ul
+          li: a(href="#").fa.fa-pencil
+          li: a(href="#").fa.fa-asterisk
+          li: a(href="#").fa.fa-star
+    div.centered.content
       block content
       
