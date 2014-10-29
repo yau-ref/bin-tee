@@ -12,6 +12,7 @@ body{
   background-size: cover;
 */  
 
+
   background-color: #fcfcfc;
 }
 
@@ -42,7 +43,7 @@ a:hover{
 }
 
 .menu{
-  text-align: right;
+  text-align: center ;
 }
 
 .menu li{
