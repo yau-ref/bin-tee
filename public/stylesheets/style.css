@@ -72,7 +72,6 @@ a:hover{
   margin: auto;
   width: 700px;
   padding: 0px;
-  padding-top: 25px;
   box-shadow: 0 0 2px rgba(0,0,0,0.2);
 }
 
@@ -118,8 +117,8 @@ a:hover{
   padding: 10px;
 }
 
-.rateUp,
-.rateDown{
+.quote .rateUp,
+.quote .rateDown{
   font-weight: bold;
 }
 
@@ -130,4 +129,8 @@ a:hover{
 }
 
 .quote a.quote_id{
+}
+
+.quote:first-child{
+  padding-top: 25px;
 }
