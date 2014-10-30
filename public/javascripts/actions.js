@@ -7,12 +7,29 @@ String.prototype.supplant = function (o) {
   )
 }
 
+function voteUp(id){
+  $.ajax({
+    url: '/'+ id + '/voteUp/',
+    success: function(res){
+      if(res.result == 'success')
+        $("#r"+id).text(res.rating)
+    }
+  })
+
+  return false;
+}
+
+function voteDown(id){
+  alert(id)
+  return false;
+}
+
 function makeQuote(quoteData){
   var template =  '<div class="quote"> \
                       <p class="text">{text}</p> \
                       <div class="controls"> \
-                        <a href="#" class="voteUp">+</a> \
-                        <span class="rating">{rating}</span> \
+                        <a href="#" onclick="voteUp({id})" class="voteUp">+</a> \
+                        <span class="rating" id="r{id}">{rating}</span> \
                         <a href="#" class="voteDown">−</a> \
                         <p class="info"> \
                           <span class="quote_date">{date}</span> \
@@ -30,8 +47,6 @@ function loadQuotes(list, id){
       for(var i in quotes) {
         $(list).append($(makeQuote(quotes[i])))
       }
-      $(".voteUp").click(function(){alert("Vote +")})
-      $(".voteDown").click(function(){alert("Vote -")})
     }
   })
 }

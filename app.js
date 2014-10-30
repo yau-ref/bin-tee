@@ -19,6 +19,7 @@ app.get('/quotes/', quotes.all);
 app.get('/quotes/:id', quotes.byId);
 app.get('/', routes.index);
 app.get('/:id', routes.quote);
+app.get('/:id/voteUp', quotes.voteUp);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

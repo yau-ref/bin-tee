@@ -13,15 +13,29 @@ var quotes = [
   }
 ]
 
+function getQuote(id){
+  return quotes.filter(function(quote){
+    return quote.id === id
+  })
+}
+
 exports.all = function(req, res){
   res.json(quotes)
 }
 
-
 exports.byId = function(req, res){
   var id = req.params.id
-  var quote = quotes.filter(function(quote){
-    return quote.id === id;
-  })
+  var quote = getQuote(id)
   res.json(quote)
+}
+
+exports.voteUp = function(req, res){
+  var id = req.params.id
+  var quote = getQuote(id)
+  if(quote === undefined || quote[0] === undefined){
+      res.json({"result": "fail"})
+  }else{
+    quote[0].rating += 1
+    res.json({"result": "success", "rating" : quote[0].rating})
+  }
 }
