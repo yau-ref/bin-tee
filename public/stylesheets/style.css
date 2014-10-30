@@ -109,8 +109,8 @@ a:hover{
   padding: 10px;
 }
 
-.quote .rateUp,
-.quote .rateDown{
+.quote .voteUp,
+.quote .voteDown{
   font-weight: bold;
 }
 

@@ -11,9 +11,9 @@ function makeQuote(quoteData){
   var template =  '<div class="quote"> \
                       <p class="text">{text}</p> \
                       <div class="controls"> \
-                        <a href="#" class="rateUp">+</a> \
+                        <a href="#" class="voteUp">+</a> \
                         <span class="rating">{rating}</span> \
-                        <a href="#" class="rateDown">−</a> \
+                        <a href="#" class="voteDown">−</a> \
                         <p class="info"> \
                           <span class="quote_date">{date}</span> \
                           <a href="/{id}" class="quote_id"># {id}</a> \
@@ -30,8 +30,8 @@ function loadQuotes(list, id){
       for(var i in quotes) {
         $(list).append($(makeQuote(quotes[i])))
       }
-      $(".rateUp").click(function(){alert("Vote +")})
-      $(".rateDown").click(function(){alert("Vote -")})
+      $(".voteUp").click(function(){alert("Vote +")})
+      $(".voteDown").click(function(){alert("Vote -")})
     }
   })
 }
