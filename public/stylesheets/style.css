@@ -4,15 +4,7 @@ body{
   color: #444;
   font-size: 11pt;
 
-/*  background: url(/images/bg.jpg) no-repeat center center fixed;
-
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-*/  
-
-
+/*  background: url(/images/bg.png) no-repeat top center fixed;*/
   background-color: #fcfcfc;
 }
 

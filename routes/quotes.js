@@ -16,3 +16,13 @@ var quotes = [
 exports.all = function(req, res){
   res.json(quotes)
 }
+
+
+exports.byId = function(req, res){
+  var id = req.params.id
+  console.log("OLOLO" + id)
+  var quote = quotes.filter(function(quote){
+    return quote.id === id;
+  })
+  res.json(quote)
+}
