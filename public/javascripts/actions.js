@@ -19,7 +19,7 @@ function makeQuote(quoteData){
                           <a href="#" class="quote_id"># {id}</a> \
                         </p> \
                       </div> \
-                   </div>'
+                   </div>'                   
   return template.supplant({rating: quoteData.rating, date: quoteData.date, id: quoteData.id}).supplant({text: quoteData.text})
 }
 
@@ -30,6 +30,9 @@ function loadQuotes(list){
       for(var i in quotes) {
         $(list).append($(makeQuote(quotes[i])))
       }
+      $(".rateUp").click(function(){alert("Vote +")})
+      $(".rateDown").click(function(){alert("Vote -")})
+      $(".quote_id").click(function(){alert(this.text)})
     }
   })
 }
