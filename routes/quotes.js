@@ -20,7 +20,6 @@ exports.all = function(req, res){
 
 exports.byId = function(req, res){
   var id = req.params.id
-  console.log("OLOLO" + id)
   var quote = quotes.filter(function(quote){
     return quote.id === id;
   })

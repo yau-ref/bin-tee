@@ -16,23 +16,22 @@ function makeQuote(quoteData){
                         <a href="#" class="rateDown">−</a> \
                         <p class="info"> \
                           <span class="quote_date">{date}</span> \
-                          <a href="#" class="quote_id"># {id}</a> \
+                          <a href="/{id}" class="quote_id"># {id}</a> \
                         </p> \
                       </div> \
                    </div>'                   
   return template.supplant({rating: quoteData.rating, date: quoteData.date, id: quoteData.id}).supplant({text: quoteData.text})
 }
 
-function loadQuotes(list){
+function loadQuotes(list, id){
   $.ajax({
-    url: '/quotes/',
+    url: '/quotes/' + (id == undefined ? '' : id),
     success: function(quotes){
       for(var i in quotes) {
         $(list).append($(makeQuote(quotes[i])))
       }
       $(".rateUp").click(function(){alert("Vote +")})
       $(".rateDown").click(function(){alert("Vote -")})
-      $(".quote_id").click(function(){alert(this.text)})
     }
   })
 }
