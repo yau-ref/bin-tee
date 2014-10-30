@@ -30,6 +30,7 @@ function makeQuote(quoteData){
 function loadQuotes(list, id){
   $.ajax({
     url: '/quotes/' + (id == undefined ? '' : id),
+    datatype: "json", 
     success: function(quotes){
       for(var i in quotes) {
         $(list).append($(makeQuote(quotes[i])))
@@ -41,6 +42,7 @@ function loadQuotes(list, id){
 function vote(id, score){
   $.ajax({
     url: '/'+ id + "/vote/" + (score > 0 ? "up" : "down"),
+    datatype: "json", 
     success: function(res){
       if(res.result == 'success')
         $("#r"+id).text(res.rating)
