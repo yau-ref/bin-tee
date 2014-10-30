@@ -15,9 +15,9 @@ function makeQuote(quoteData){
   var template =  '<div class="quote"> \
                       <p class="text">{text}</p> \
                       <div class="controls"> \
-                        <a href="" onclick="voteUp({id})" class="voteUp">+</a> \
+                        <a href=""  onclick="voteUp({id}); return false;" class="voteUp">+</a> \
                         <span class="rating" id="r{id}">{rating}</span> \
-                        <a href="" onclick="voteDown({id})" class="voteDown">−</a> \
+                        <a href="" onclick="voteDown({id}); return false;" class="voteDown">−</a> \
                         <p class="info"> \
                           <span class="quote_date">{date}</span> \
                           <a href="/{id}" class="quote_id"># {id}</a> \
@@ -52,11 +52,11 @@ function vote(id, score){
 
 // HANDLERS
 function voteUp(id){
-  vote(id, 1)
-  return false
+  vote(id, 1);
+  return false;
 }
 
 function voteDown(id){
-  vote(id, -1)
-  return false
+  vote(id, -1);
+  return false;
 }
