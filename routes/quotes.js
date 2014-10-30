@@ -29,13 +29,14 @@ exports.byId = function(req, res){
   res.json(quote)
 }
 
-exports.voteUp = function(req, res){
+exports.vote = function(req, res){
   var id = req.params.id
+  var score = req.params.score
   var quote = getQuote(id)
   if(quote === undefined || quote[0] === undefined){
       res.json({"result": "fail"})
   }else{
-    quote[0].rating += 1
+    quote[0].rating += (score == "up" ? 1 : -1)
     res.json({"result": "success", "rating" : quote[0].rating})
   }
 }

@@ -1,3 +1,7 @@
+$(document).ready(function(){
+
+})
+
 String.prototype.supplant = function (o) {
   return this.replace(/{([^{}]*)}/g,
     function (a, b) {
@@ -7,30 +11,13 @@ String.prototype.supplant = function (o) {
   )
 }
 
-function voteUp(id){
-  $.ajax({
-    url: '/'+ id + '/voteUp/',
-    success: function(res){
-      if(res.result == 'success')
-        $("#r"+id).text(res.rating)
-    }
-  })
-
-  return false;
-}
-
-function voteDown(id){
-  alert(id)
-  return false;
-}
-
 function makeQuote(quoteData){
   var template =  '<div class="quote"> \
                       <p class="text">{text}</p> \
                       <div class="controls"> \
-                        <a href="#" onclick="voteUp({id})" class="voteUp">+</a> \
+                        <a href="" onclick="voteUp({id})" class="voteUp">+</a> \
                         <span class="rating" id="r{id}">{rating}</span> \
-                        <a href="#" class="voteDown">−</a> \
+                        <a href="" onclick="voteDown({id})" class="voteDown">−</a> \
                         <p class="info"> \
                           <span class="quote_date">{date}</span> \
                           <a href="/{id}" class="quote_id"># {id}</a> \
@@ -51,7 +38,23 @@ function loadQuotes(list, id){
   })
 }
 
+function vote(id, score){
+  $.ajax({
+    url: '/'+ id + "/vote/" + (score > 0 ? "up" : "down"),
+    success: function(res){
+      if(res.result == 'success')
+        $("#r"+id).text(res.rating)
+    }
+  })
+}
 
-$(document).ready(function(){
+// HANDLERS
+function voteUp(id){
+  vote(id, 1)
+  return false
+}
 
-})
+function voteDown(id){
+  vote(id, -1)
+  return false
+}
