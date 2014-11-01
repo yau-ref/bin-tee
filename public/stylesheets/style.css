@@ -129,3 +129,67 @@ a:hover{
 .quote:first-child{
   padding-top: 25px;
 }
+
+.quoteAddForm{
+  text-align: center;
+}
+
+.quoteAddForm textarea{
+  margin: 20px 0;
+  width: 90%;
+  height: 200px;
+  font-size: 1.2em;
+}
+
+.quoteAddForm button{
+  border: none;
+  background: #4fa9b8;
+  color: white;
+  padding: 5px 20px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.quoteAddForm button:hover{
+  background: #6fc9d8;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

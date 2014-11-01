@@ -1,5 +1,9 @@
 extends layout
 
 block content
+  form#quoteAddForm.quoteAddForm
+    textarea#quoteAddText(placeholder="Write quote")
+    button#quoteAddButton Add quote
+    
   div#quotes
   script loadQuotes('#quotes')
