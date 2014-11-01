@@ -1,5 +1,16 @@
 $(document).ready(function(){
 
+  $("#writeNew").click(function(){
+    var form = $("#quoteAddForm")
+    if(form.is(":visible"))
+      form.hide()
+    else
+      form.show()
+    return false;
+  })
+  
+
+
 })
 
 String.prototype.supplant = function (o) {

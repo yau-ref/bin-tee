@@ -131,6 +131,7 @@ a:hover{
 }
 
 .quoteAddForm{
+  display: none;
   text-align: center;
 }
 
@@ -153,22 +154,6 @@ a:hover{
 .quoteAddForm button:hover{
   background: #6fc9d8;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
