@@ -43,8 +43,7 @@ exports.vote = function(req, res){
 
 exports.add = function(req, res){
   var quoteText = req.body.text
-  var quoteId = Math.round(Math.random() * 100)
-  console.log(quoteText)
+  var quoteId = Math.round(Math.random() * 100).toString()
   quotes.unshift({id: quoteId, text: quoteText, rating: 0, date: currentDate()})
   res.end()
 }
@@ -52,7 +51,7 @@ exports.add = function(req, res){
 function currentDate(){
 
   function complete(x){
-    return x < 10 ? 0 + x : x
+    return x < 10 ? '0' + x : x
   }
 
   var today = new Date();
