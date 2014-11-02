@@ -4,7 +4,7 @@ exports.index = function(req, res){
 
 exports.quote = function(req, res){
   var id = req.params.id
-  res.render('quote', { title: '/bin/tee ' + id, quoteId: id})
+  res.render('index', { title: '/bin/tee ' + id, quoteId: id})
 }
 
 exports.writenew = function(req, res){

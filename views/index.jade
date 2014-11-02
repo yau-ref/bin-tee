@@ -1,5 +1,8 @@
 extends layout
 
-block content
+block content  
   div#quotes
-  script loadQuotes('#quotes')
+  if (typeof(quoteId) !== 'undefined')
+    script loadQuotes('#quotes', #{quoteId})
+  else
+    script loadQuotes('#quotes')
