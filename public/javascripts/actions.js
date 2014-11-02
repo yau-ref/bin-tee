@@ -5,11 +5,12 @@ $(document).ready(function(){
       url: '/quotes/new',
       type: 'POST',
       data: {
-        text: 'LOL'
+        text: $("#quoteAddText").val()
       },
       datatype: 'json', 
       success: function(quotes){
-      
+        loadQuotes('#quotes')
+        $("#quoteAddForm").hide()
       }
     })   
     return false;
@@ -57,6 +58,7 @@ function loadQuotes(list, id){
     url: '/quotes/' + (id == undefined ? '' : id),
     datatype: "json", 
     success: function(quotes){
+      $(list).empty();
       for(var i in quotes) {
         $(list).append($(makeQuote(quotes[i])))
       }
