@@ -1,5 +1,20 @@
 $(document).ready(function(){
 
+  $("#quoteAddButton").click(function(){
+    $.ajax({
+      url: '/quotes/new',
+      type: 'POST',
+      data: {
+        text: 'LOL'
+      },
+      datatype: 'json', 
+      success: function(quotes){
+      
+      }
+    })   
+    return false;
+  });
+
   $("#writeNew").click(function(){
     var form = $("#quoteAddForm")
     if(form.is(":visible"))
@@ -7,9 +22,8 @@ $(document).ready(function(){
     else
       form.show()
     return false;
-  })
+  });
   
-
 
 })
 
