@@ -131,8 +131,12 @@ a:hover{
 }
 
 .quoteAddForm{
-  display: none;
   text-align: center;
+  height: 300px;
+}
+
+.quoteAddForm.hidden{
+  display: none;
 }
 
 .quoteAddForm textarea{

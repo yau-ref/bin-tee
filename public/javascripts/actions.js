@@ -18,10 +18,11 @@ $(document).ready(function(){
 
   $("#writeNew").click(function(){
     var form = $("#quoteAddForm")
-    if(form.is(":visible"))
+/*    if(form.is(":visible"))
       form.hide()
     else
-      form.show()
+      form.show()*/
+      form.toggleClass("hidden")
     return false;
   });
   

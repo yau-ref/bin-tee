@@ -5,14 +5,14 @@ html
     link(rel='stylesheet', href='/stylesheets/reset-2.0.css')
     link(rel='stylesheet', href='/stylesheets/font-awesome.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
-    script(type="text/javascript" src="javascripts/jquery.min.js")
-    script(type="text/javascript" src="javascripts/actions.js")
+    script(type="text/javascript" src="/javascripts/jquery.min.js")
+    script(type="text/javascript" src="/javascripts/actions.js")
   body
     div.header
       div.centered.header-content
         div.logo
         ul.menu
-          li: a(href="#" title="Write your")#writeNew.fa.fa-pencil
+          li: a(href="/quotes/new" title="Write your")#writeNew.fa.fa-pencil
           li: a(href="/" title="All").fa.fa-asterisk
           li: a(href="#" title="Top").fa.fa-star
     div.centered.content#content
