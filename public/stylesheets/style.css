@@ -13,7 +13,7 @@ a{
 }
 
 a:hover{
-  color: #333;
+  color: #4fa9b8;
 }
 
 .header{
@@ -52,7 +52,7 @@ a:hover{
 }
 
 .menu a:hover{
-    color: #0b0;
+    color: #4fa9b8;
 }
 
 .header-content{
@@ -94,7 +94,7 @@ a:hover{
 }
 
 .quote .controls a:hover{
-  color: #0b0;
+  color: #4fa9b8;
 }
 
 .quote .info{
