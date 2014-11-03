@@ -54,9 +54,11 @@ function makeQuote(quoteData){
   return template.supplant({rating: quoteData.rating, date: quoteData.date, id: quoteData.id}).supplant({text: quoteData.text})
 }
 
-function loadQuotes(list, id){
+
+
+function loadQuotes(list, path){
   $.ajax({
-    url: '/quotes/' + (id == undefined ? '' : id),
+    url: path,
     datatype: "json", 
     success: function(quotes){
       $(list).empty();
@@ -66,6 +68,22 @@ function loadQuotes(list, id){
     }
   })
 }
+
+function loadAllQuotes(list){
+  loadQuotes(list, '/quotes/')
+}
+
+function loadQuote(list, id){
+  loadQuotes(list, '/quotes/' + id)
+}
+
+function loadTopQuotes(list){
+  loadQuotes(list, '/top/')
+}
+
+
+
+
 
 function vote(id, score){
   $.ajax({

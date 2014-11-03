@@ -2,7 +2,7 @@ extends layout
 
 block content  
   div#quotes
-  if (typeof(quoteId) !== 'undefined')
-    script loadQuotes('#quotes', #{quoteId})
+  if (typeof(quoteId) === 'undefined')
+    script loadAllQuotes('#quotes')
   else
-    script loadQuotes('#quotes')
+    script loadQuote('#quotes', #{quoteId})
