@@ -38,11 +38,18 @@ exports.byId = function(req, res){
 }
 
 exports.vote = function(req, res){
-  var id = req.params.id
+  var id = req.params.id  
+  if(req.cookies.votes === undefined)
+    res.cookie('votes', id, { maxAge: 900000, httpOnly: true })
+  if(req.cookies.votes.toString().split(';').indexOf(id) >= 0){
+    res.json({'result': 'fail', 'msg': 'Voted already'})
+    return;
+  }
+  res.cookie('votes', req.cookies.votes + ';' + id, { maxAge: 900000, httpOnly: true })
   var score = req.params.score
   var quote = getQuote(id)
   if(quote === undefined || quote[0] === undefined){
-      res.json({'result': 'fail'})
+      res.json({'result': 'fail', 'msg': 'No such quote:' + id})
   }else{
     quote[0].rating += (score == 'up' ? 1 : -1)
     res.json({'result': 'success', 'rating' : quote[0].rating})
