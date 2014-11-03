@@ -2,7 +2,7 @@ var quotes = [
   {
     "id": "2",
     "text": "This is quote text. It is very interesting quote. I hope you like it. Lalala... ",
-    "rating": 100,
+    "rating": 99,
     "date": "27.10.14 12:30"
   },
   {
@@ -22,6 +22,14 @@ function getQuote(id){
 exports.all = function(req, res){
   res.json(quotes)
 }
+
+exports.top = function(req, res){
+  var topQuotes = quotes.filter(function(quote){
+    return quote.rating > 100
+  })
+  res.json(topQuotes)
+}
+
 
 exports.byId = function(req, res){
   var id = req.params.id

@@ -56,7 +56,7 @@ function makeQuote(quoteData){
 
 
 
-function loadQuotes(list, path){
+function loadQuotesByPath(list, path){
   $.ajax({
     url: path,
     datatype: "json", 
@@ -69,21 +69,13 @@ function loadQuotes(list, path){
   })
 }
 
-function loadAllQuotes(list){
-  loadQuotes(list, '/quotes/')
+function loadQuotes(list, topOnly){
+  loadQuotesByPath(list, topOnly ? '/quotes/top/' : '/quotes/')
 }
 
 function loadQuote(list, id){
-  loadQuotes(list, '/quotes/' + id)
+  loadQuotesByPath(list, '/quotes/' + id)
 }
-
-function loadTopQuotes(list){
-  loadQuotes(list, '/top/')
-}
-
-
-
-
 
 function vote(id, score){
   $.ajax({
