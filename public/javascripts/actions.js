@@ -2,7 +2,7 @@ $(document).ready(function(){
 
   $("#quoteAddButton").click(function(){
     $.ajax({
-      url: '/quotes/new',
+      url: '/quotes/add',
       type: 'POST',
       data: {
         text: $("#quoteAddText").val()
@@ -53,8 +53,6 @@ function makeQuote(quoteData){
                    </div>'                   
   return template.supplant({rating: quoteData.rating, date: quoteData.date, id: quoteData.id}).supplant({text: quoteData.text})
 }
-
-
 
 function loadQuotesByPath(list, path){
   $.ajax({

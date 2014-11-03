@@ -17,12 +17,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/quotes/', quotes.all);
 app.get('/quotes/top', quotes.top);
-app.post('/quotes/new', quotes.add);
+app.post('/quotes/add', quotes.add);
 app.get('/quotes/:id', quotes.byId);
 
 app.get('/', routes.index);
 app.get('/top', routes.top);
-app.get('/quotes/new', routes.writenew);
+app.get('/add', routes.writenew);
 app.get('/:id', routes.quote);
 app.get('/:id/vote/:score', quotes.vote);
 
