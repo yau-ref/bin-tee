@@ -5,29 +5,24 @@ $(document).ready(function(){
       url: '/quotes/add',
       type: 'POST',
       data: {
-        text: $("#quoteAddText").val()
+        text: $('#quoteAddText').val()
       },
       datatype: 'json', 
       success: function(quotes){
         loadQuotes('#quotes')
-        $("#quoteAddForm").hide()
+        $('#quoteAddForm').hide()
       }
     })   
     return false;
   });
 
-  $("#writeNew").click(function(){
-    var form = $("#quoteAddForm")
-/*    if(form.is(":visible"))
-      form.hide()
-    else
-      form.show()*/
-      form.toggleClass("hidden")
+  $('#writeNew').click(function(){
+    var form = $('#quoteAddForm')
+    form.toggleClass("hidden")
     return false;
-  });
-  
+  });  
 
-})
+});
 
 String.prototype.supplant = function (o) {
   return this.replace(/{([^{}]*)}/g,
@@ -36,7 +31,7 @@ String.prototype.supplant = function (o) {
       return typeof r === 'string' || typeof r === 'number' ? r : a
     }
   )
-}
+};
 
 function makeQuote(quoteData){
   var template =  '<div class="quote"> \
@@ -52,12 +47,14 @@ function makeQuote(quoteData){
                       </div> \
                    </div>'                   
   return template.supplant({rating: quoteData.rating, date: quoteData.date, id: quoteData.id}).supplant({text: quoteData.text})
-}
+};
 
+
+//QUOTES ACCESSING
 function loadQuotesByPath(list, path){
   $.ajax({
     url: path,
-    datatype: "json", 
+    datatype: 'json', 
     success: function(quotes){
       $(list).empty();
       for(var i in quotes) {
@@ -65,34 +62,34 @@ function loadQuotesByPath(list, path){
       }
     }
   })
-}
+};
 
 function loadQuotes(list, topOnly){
   loadQuotesByPath(list, topOnly ? '/quotes/top/' : '/quotes/')
-}
+};
 
 function loadQuote(list, id){
   loadQuotesByPath(list, '/quotes/' + id)
-}
+};
 
 function vote(id, score){
   $.ajax({
-    url: '/'+ id + "/vote/" + (score > 0 ? "up" : "down"),
-    datatype: "json", 
+    url: '/'+ id + '/vote/' + (score > 0 ? 'up' : 'down'),
+    datatype: 'json', 
     success: function(res){
       if(res.result == 'success')
-        $("#r"+id).text(res.rating)
+        $('#r'+id).text(res.rating)
     }
   })
-}
+};
 
 // HANDLERS
 function voteUp(id){
   vote(id, 1);
   return false;
-}
+};
 
 function voteDown(id){
   vote(id, -1);
   return false;
-}
+};
