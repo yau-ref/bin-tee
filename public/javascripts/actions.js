@@ -9,7 +9,7 @@ $(document).ready(function(){
       },
       datatype: 'json', 
       success: function(quotes){
-        loadQuotes('#quotes')
+        location.reload()
         $('#quoteAddForm').hide()
       }
     })   
