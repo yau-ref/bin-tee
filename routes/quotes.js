@@ -24,22 +24,28 @@ exports.byId = function(req, res){
 }
 
 exports.vote = function(req, res){
-  var id = req.params.id  
-  if(req.cookies.votes === undefined)
-    res.cookie('votes', id, { maxAge: 900000, httpOnly: true })
-  if(req.cookies.votes.toString().split(';').indexOf(id) >= 0){
+  var quoteId = req.params.id  
+  if(req.cookies.votes === undefined){
+    res.cookie('votes', quoteId, { maxAge: 900000, httpOnly: true })
+  }else if(req.cookies.votes.toString().split(';').indexOf(quoteId) >= 0){
     res.json({'result': 'fail', 'msg': 'Voted already'})
     return;
-  }
-  res.cookie('votes', req.cookies.votes + ';' + id, { maxAge: 900000, httpOnly: true })
-  var score = req.params.score
-  var quote = getQuote(id)
-  if(quote === undefined || quote[0] === undefined){
-      res.json({'result': 'fail', 'msg': 'No such quote:' + id})
   }else{
-    quote[0].rating += (score == 'up' ? 1 : -1)
-    res.json({'result': 'success', 'rating' : quote[0].rating})
+    res.cookie('votes', req.cookies.votes + ';' + quoteId, { maxAge: 900000, httpOnly: true })
   }
+
+  var score = req.params.score
+  var redisClient = req.redisClient     
+  redisClient.get(quoteId, function(err, quote){
+    if(err != null){
+      res.json({'result': 'fail', 'msg': 'No such quote:' + quoteId})
+      return;
+    }
+    var q = JSON.parse(quote)
+    q.rating += (score == 'up' ? 1 : -1)
+    redisClient.set(quoteId, JSON.stringify(q))
+    res.json({'result': 'success', 'rating' : q.rating})
+  });
 }
 
 exports.add = function(req, res){
