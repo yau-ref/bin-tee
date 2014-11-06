@@ -44,8 +44,10 @@ exports.vote = function(req, res){
 
 exports.add = function(req, res){
   var quoteText = req.body.text
-  var quoteId = Math.round(Math.random() * 100).toString()
-  quotes.unshift({id: quoteId, text: quoteText, rating: 0, date: currentDate()})
+  var quoteId = Math.round(Math.random() * 1000).toString()
+  var quote = JSON.stringify({id: quoteId, text: quoteText, rating: 0, date: currentDate()})
+  var redisClient = req.redisClient 
+  redisClient.set(quoteId, quote)
   res.end()
 }
 
@@ -56,16 +58,11 @@ function currentDate(){
   }
 
   var today = new Date();
-  var dd = today.getDate();
-  var mm = today.getMonth()+1;
   var yy = today.getFullYear().toString().substr(2,2);
-  var hh = today.getHours();
-  var mnt = today.getMinutes();
-
-  dd = complete(dd)
-  mm = complete(mm)
-  hh = complete(hh)
-  mnt = complete(mnt)
+  var dd = complete(today.getDate());
+  var mm = complete(today.getMonth()+1);
+  var hh = complete(today.getHours());
+  var mnt = complete(today.getMinutes());
 
   return dd+'.'+mm+'.'+yy +' '+ hh + ':' + mnt;
 }
