@@ -2,9 +2,11 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 
+var redis = require('redis');
+var redisClient = redis.createClient(6379, 'localhost');
+
 var routes = require('./routes');
 var quotes = require('./routes/quotes');
-
 var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
@@ -13,6 +15,12 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.methodOverride());
+
+app.use(function(req,res,next){
+  req.redisClient = redisClient;
+  next();
+});
+
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
