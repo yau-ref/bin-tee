@@ -35,6 +35,24 @@ app.get('/add', routes.writenew);
 app.get('/:id', routes.quote);
 app.get('/:id/vote/:score', quotes.vote);
 
+if (app.get('env') === 'development') {
+  app.use(function(err, req, res, next) {
+      res.status(err.status || 500);
+      res.render('error', {
+          message: err.message,
+          error: err
+      });
+  });
+}else{
+  app.use(function(err, req, res, next) {
+      res.status(err.status || 500);
+      res.render('error', {
+          message: err.message,
+          error: {}
+      });
+  });
+}
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
