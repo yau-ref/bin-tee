@@ -1,9 +1,11 @@
 exports.all = function(req, res){
   var redisClient = req.redisClient
-  var quoteId = req.params.id
-  redisClient.get(quoteId, function(err, quote){
-    var normalizedQuote = Array(JSON.parse(quote))
-    res.json(normalizedQuote)
+  
+  redisClient.scan(0, function(err, ids){
+    redisClient.mget(ids[1], function(err, quotes){
+      var normalizedArray = quotes.map(function(quote){return JSON.parse(quote)})
+      res.json(normalizedArray)
+    });
   });
 }
 
