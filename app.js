@@ -53,6 +53,24 @@ if (app.get('env') === 'development') {
   });
 }
 
-http.createServer(app).listen(app.get('port'), function(){
+var server = http.createServer(app);
+
+function exitHandler(options, err) {
+  if(options.cleanup){
+    console.log('Cleaning')
+    console.log('Closing redis connection')
+    redisClient.quit()
+  }
+  // to prevent emmiting exit event again
+  if (options.exit){
+    server.close()
+    process.exit()
+  }
+}
+process.on('exit', exitHandler.bind(null, {cleanup:true}));
+process.on('SIGINT', exitHandler.bind(null, {exit:true}));
+process.on('uncaughtException', exitHandler.bind(null, {exit:true}));
+
+server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
