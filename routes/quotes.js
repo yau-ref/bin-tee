@@ -51,9 +51,19 @@ exports.vote = function(req, res){
       res.json({'result': 'fail', 'msg': 'No such quote:' + quoteId})
       return;
     }
+    
     var q = JSON.parse(quote)
     q.rating += (score == 'up' ? 1 : -1)
     redisClient.set(quoteId, JSON.stringify(q))
+    
+    if(q.rating >= 100){
+      // NOTE: A quote should stay in the Top even if its rating falls below 100
+      redisClient.select(1, function(){
+        redisClient.sadd('topQuotes', quoteId)
+        redisClient.select(0)
+      });
+    }
+    
     res.json({'result': 'success', 'rating' : q.rating})
   });
 }
