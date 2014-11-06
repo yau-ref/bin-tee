@@ -10,10 +10,18 @@ exports.all = function(req, res){
 }
 
 exports.top = function(req, res){
-  var topQuotes = quotes.filter(function(quote){
-    return quote.rating > 100
-  })
-  res.json(topQuotes)
+  var redisClient = req.redisClient
+  
+  redisClient.select(1, function(){
+    redisClient.smembers("topQuotes", function(err, ids){
+      redisClient.select(0, function(){
+        redisClient.mget(ids, function(err, quotes){
+          var normalizedArray = quotes.map(function(quote){return JSON.parse(quote)})
+          res.json(normalizedArray)
+        });  
+      });
+    });
+  });
 }
 
 exports.byId = function(req, res){
