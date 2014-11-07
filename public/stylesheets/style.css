@@ -8,24 +8,29 @@ body{
   background-color: #fcfcfc;
 }
 
-a{
+a,
+button{
   text-decoration: none;
+  -webkit-transition: all 200ms ease-out;
+     -moz-transition: all 200ms ease-out;
+      -ms-transition: all 200ms ease-out;
+       -o-transition: all 200ms ease-out;
+          transition: all 200ms ease-out;
 }
 
-a:hover{
-  color: #4fa9b8;
+a{
+  color: #4ab;
+  outline: 0;
 }
 
 .header{
   position: relative;
   top: 0px;
   width: 100%;
-  padding: 10px 0px;
   margin: auto;
   box-shadow: 0 0 5px rgba(0,0,0,0.5);
-  background: #333;  
+  background: #222;
   font-size: 25px;
-  color: #333;
 }
 
 .logo{
@@ -40,32 +45,20 @@ a:hover{
 
 .menu li{
   display: inline-block;
-  padding: 0 10px;
-  border: 1px solid #444;
   border-top: none;
   border-bottom: none;
 }
 
 .menu a{
+  display: block;
+  padding: 10px;
   text-decoration: none;
-  color: #eee;
+  color: #ddd;
 }
-
-.menu a.linkTop:hover{
-  color: #ff0;
-}
-
-.menu a.linkWriteNew:hover{
-  color: #0f0;
-}
-
-/*.menu a.linkAll:hover{
-  color: #44f;
-}*/
-
 
 .menu a:hover{
-    color: #4fa9b8;
+  color: #fff;
+  background: #333;
 }
 
 .header-content{
@@ -102,11 +95,11 @@ a:hover{
 
 .quote .controls a{
   text-decoration: none;
-  color: #4fa9b8;
+  color: #4ab;
 }
 
 .quote .controls a:hover{
-  color: #4fa9b8;
+  color: #ff0;
 }
 
 .quote .info{
@@ -161,7 +154,7 @@ a:hover{
 
 .quoteAddForm button{
   border: none;
-  background: #4fa9b8;
+  background: #4ab;
   color: white;
   padding: 5px 20px;
   text-transform: uppercase;
@@ -169,5 +162,6 @@ a:hover{
 }
 
 .quoteAddForm button:hover{
-  background: #6fc9d8;
+  color: #000;
+  background: #ff0;
 }
