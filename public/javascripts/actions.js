@@ -9,8 +9,8 @@ $(document).ready(function(){
       },
       datatype: 'json', 
       success: function(quotes){
+        $('#quoteAddForm').toggleClass("hidden")
         location.reload()
-        $('#quoteAddForm').hide()
       }
     })   
     return false;
