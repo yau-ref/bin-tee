@@ -14,3 +14,8 @@ exports.quote = function(req, res){
 exports.writenew = function(req, res){
   res.render('writenew', { title: '/bin/tee write new'})
 }
+
+exports.pageNotFound = function(req, res){
+  res.status(404);
+  res.render('404', {title: '/bin/tee page not found'})
+}

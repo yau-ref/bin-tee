@@ -44,7 +44,7 @@ a{
   font-weight: bold;
 }
 
-.menu{
+.header .menu{
   text-align: right;
 }
 
@@ -177,3 +177,30 @@ a{
   background: #ff0;
 }
 
+.messageWindow{
+  position: absolute; 
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 700px;
+  height: 400px;
+  margin: auto;
+  background: #222;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  color: #fff;
+  text-align: center;
+}
+
+.messageWindow > .messageTitle{
+  padding-top: 130px;
+  font-size: 2em;
+}
+
+.messageWindow > .messageText{
+  padding-top: 10px;
+  color: #4ab;
+  font-size: 3em;
+}
+
+.messageWindow .menu{
+  margin-top: 20px;
+  font-size: 2em;
+}

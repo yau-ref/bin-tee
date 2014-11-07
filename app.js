@@ -35,6 +35,8 @@ app.get('/add', routes.writenew);
 app.get('/:id', routes.quote);
 app.get('/:id/vote/:score', quotes.vote);
 
+app.use(routes.pageNotFound);
+
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
       res.status(err.status || 500);
