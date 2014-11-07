@@ -144,10 +144,16 @@ a{
 .quoteAddForm{
   text-align: center;
   height: 300px;
+  -webkit-transition: all 200ms ease-out;
+     -moz-transition: all 200ms ease-out;
+      -ms-transition: all 200ms ease-out;
+       -o-transition: all 200ms ease-out;
+          transition: all 200ms ease-out;
+   overflow: hidden;
 }
 
 .quoteAddForm.hidden{
-  display: none;
+  height: 0px;
 }
 
 .quoteAddForm textarea{
@@ -170,3 +176,4 @@ a{
   color: #000;
   background: #ff0;
 }
+
