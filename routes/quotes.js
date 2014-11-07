@@ -70,8 +70,15 @@ exports.vote = function(req, res){
 
 exports.add = function(req, res){
   var quoteText = req.body.text
+  var safeQuoteText = 
+    quoteText
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   var quoteId = Math.round(Math.random() * 1000).toString()
-  var quote = JSON.stringify({id: quoteId, text: quoteText, rating: 0, date: currentDate()})
+  var quote = JSON.stringify({id: quoteId, text: safeQuoteText, rating: 0, date: currentDate()})
   var redisClient = req.redisClient 
   redisClient.set(quoteId, quote)
   res.end()
