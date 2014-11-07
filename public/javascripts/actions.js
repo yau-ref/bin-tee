@@ -74,7 +74,7 @@ function loadQuote(list, id){
 
 function vote(id, score){
   $.ajax({
-    url: '/'+ id + '/vote/' + (score > 0 ? 'up' : 'down'),
+    url: '/q'+ id + '/vote/' + (score > 0 ? 'up' : 'down'),
     datatype: 'json', 
     success: function(res){
       if(res.result == 'success')
