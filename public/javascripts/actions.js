@@ -42,7 +42,7 @@ function makeQuote(quoteData){
                         <a href="" onclick="voteDown({id}); return false;" class="voteDown">−</a> \
                         <p class="info"> \
                           <span class="quote_date">{date}</span> \
-                          <a href="/{id}" class="quote_id"># {id}</a> \
+                          <a href="/q{id}" class="quote_id"># {id}</a> \
                         </p> \
                       </div> \
                    </div>'                   

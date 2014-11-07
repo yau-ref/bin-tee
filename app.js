@@ -32,8 +32,8 @@ app.get('/quotes/:id', quotes.byId);
 app.get('/', routes.index);
 app.get('/top', routes.top);
 app.get('/add', routes.writenew);
-app.get('/:id', routes.quote);
-app.get('/:id/vote/:score', quotes.vote);
+app.get('/q:id', routes.quote);
+app.get('/q:id/vote/:score', quotes.vote);
 
 app.use(routes.pageNotFound);
 
