@@ -34,13 +34,18 @@ a{
 }
 
 .logo{
-  color: #000;
-  font-weight: bold;
   float: left;
+  padding-top: 10px;
+}
+
+.logo,
+.logo a{
+  color: #ddd;
+  font-weight: bold;
 }
 
 .menu{
-  text-align: center ;
+  text-align: right;
 }
 
 .menu li{
