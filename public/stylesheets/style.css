@@ -18,7 +18,7 @@ button{
           transition: all 200ms ease-out;
 }
 
-a{
+.content a{
   color: #4ab;
   outline: 0;
 }
@@ -112,11 +112,13 @@ a{
 }
 
 .quote .quote_date{
-  padding-right: 20px;
+  /*padding-right: 0px;*/
 }
 
 .quote .rating{
-  padding: 10px;
+  display: inline-block;
+  text-align: center;
+  width: 40px;
 }
 
 .quote .voteUp,
@@ -133,7 +135,7 @@ a{
 
 .quote a.quote_id{
   display: inline-block;
-  width: 70px;
+  width: 50px;
   text-align: right;
 }
 
@@ -203,4 +205,8 @@ a{
 .messageWindow .menu{
   margin-top: 20px;
   font-size: 2em;
+}
+
+.quote-comments-button{
+  padding-left: 220px;
 }
