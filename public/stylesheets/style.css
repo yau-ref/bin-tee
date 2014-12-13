@@ -210,3 +210,27 @@ button{
 .quote-comments-button{
   padding-left: 220px;
 }
+
+.quote-comments-button:before{
+  color: #555;
+}
+
+.comments{
+   overflow: hidden;
+}
+
+
+.comments{
+  height: 300px;
+  -webkit-transition: all 200ms ease-out;
+     -moz-transition: all 200ms ease-out;
+      -ms-transition: all 200ms ease-out;
+       -o-transition: all 200ms ease-out;
+          transition: all 200ms ease-out;
+   overflow: hidden;
+}
+
+.comments.hidden{
+  height: 0px;
+}
+
