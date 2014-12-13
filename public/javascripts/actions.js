@@ -34,10 +34,10 @@ String.prototype.supplant = function (o) {
 };
 
 function makeQuote(quoteData){
-  var template =  '<div class="quote"> \
+  var template =  '<div id="q{id}" class="quote"> \
                       <p class="text">{text}</p> \
                       <div class="controls"> \
-                        <a href=""  onclick="voteUp({id}); return false;" class="voteUp">+</a> \
+                        <a href="" onclick="voteUp({id}); return false;" class="voteUp">+</a> \
                         <span class="rating" id="r{id}">{rating}</span> \
                         <a href="" onclick="voteDown({id}); return false;" class="voteDown">−</a> \
                         <a href="#" onclick="openComments({id});" class="quote-comments-button fa fa-comments-o"></a> \
@@ -46,7 +46,7 @@ function makeQuote(quoteData){
                           <a href="/q{id}" class="quote_id"># {id}</a> \
                         </p> \
                       </div> \
-                      <div id="quote-comments-{id}" class="comments hidden">Hello</div>\
+                      <div id="quote-comments-{id}" class="comments hidden"></div>\
                    </div>'                   
   return template.supplant({rating: quoteData.rating, date: quoteData.date, id: quoteData.id}).supplant({text: quoteData.text})
 };
@@ -97,5 +97,6 @@ function voteDown(id){
 };
 
 function openComments(id){
+  $('#q'+id).toggleClass("opened-quote")
   $('#quote-comments-' + id).toggleClass("hidden")
 }

@@ -90,7 +90,12 @@ button{
 .quote{
   margin: 0px;
   padding: 10px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #eee;  
+  -webkit-transition: all 200ms ease-out;
+   -moz-transition: all 200ms ease-out;
+    -ms-transition: all 200ms ease-out;
+     -o-transition: all 200ms ease-out;
+        transition: all 200ms ease-out;
 }
 
 .quote .controls{
@@ -216,11 +221,6 @@ button{
 }
 
 .comments{
-   overflow: hidden;
-}
-
-
-.comments{
   height: 300px;
   -webkit-transition: all 200ms ease-out;
      -moz-transition: all 200ms ease-out;
@@ -234,3 +234,13 @@ button{
   height: 0px;
 }
 
+.quote.opened-quote{
+  background: #0af;
+  color: #eee;
+}
+
+.quote.opened-quote .text,
+.quote.opened-quote a,
+.quote.opened-quote .quote-comments-button:before{
+  color: #fff;
+}
