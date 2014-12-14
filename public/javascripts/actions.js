@@ -40,7 +40,7 @@ function makeQuote(quoteData){
                         <a href="" onclick="voteUp({id}); return false;" class="voteUp">+</a> \
                         <span class="rating" id="r{id}">{rating}</span> \
                         <a href="" onclick="voteDown({id}); return false;" class="voteDown">−</a> \
-                        <a href="#" onclick="openComments({id});" class="quote-comments-button fa fa-comments-o"></a> \
+                        <a href="#" onclick="openComments({id}); return false;" class="quote-comments-button fa fa-comments-o"></a> \
                         <p class="info"> \
                           <span class="quote_date">{date}</span> \
                           <a href="/q{id}" class="quote_id"># {id}</a> \

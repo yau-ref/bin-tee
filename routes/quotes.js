@@ -1,3 +1,5 @@
+var COMMENTS_DB = 2;
+
 exports.all = function(req, res){
   var redisClient = req.redisClient
   
@@ -82,6 +84,30 @@ exports.add = function(req, res){
   var redisClient = req.redisClient 
   redisClient.set(quoteId, quote)
   res.end()
+}
+
+exports.comments = function(req, res){
+  
+}
+
+exports.addComment = function(req, res){
+  var quoteId = req.params.quoteId
+  var commentsText = req.body.text
+  var safeCommentsText = 
+    commentsText
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  var commentId = Math.round(Math.random() * 1000).toString()
+  var comment = JSON.stringify({id: commentId, text: safeCommentText, date: currentDate()})
+  var redisClient = req.redisClient
+  redisClient.select(COMMENTS_DB, function(){
+    redisClient.rpush(quoteId, comment)
+    redisClient.select(0)
+    res.end()  
+  });
 }
 
 function currentDate(){
