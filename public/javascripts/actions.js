@@ -85,6 +85,24 @@ function vote(id, score){
   })
 };
 
+
+// ACCESSING COMMENTS
+
+function loadComments(quoteId){
+  $.ajax({
+    url: '/quotes/' + quoteId + '/comments',
+    datatype: 'json', 
+    success: function(comments){
+      $('#q'+quoteId).empty();
+      for(var i in comments) {
+        $('#q'+quoteId).append($(makeComment(comments[i])))
+      }
+    }
+  })
+};
+
+
+
 // HANDLERS
 function voteUp(id){
   vote(id, 1);
@@ -97,6 +115,7 @@ function voteDown(id){
 };
 
 function openComments(id){
-  $('#q'+id).toggleClass("opened-quote")
-  $('#quote-comments-' + id).toggleClass("hidden")
+  loadComments(id);
+  $('#q'+id).toggleClass("opened-quote");
+  $('#quote-comments-' + id).toggleClass("hidden");
 }
