@@ -16,10 +16,27 @@ redisClient.select(0, function(){
       'rating': 120,
       'date': '26.10.14 13:25'
   }));
-  
-  redisClient.select(1, function(){
-    redisClient.sadd("topQuotes", 1)
-    redisClient.quit();
+
+
+
+  redisClient.select(2, function(){
+    redisClient.rpush(1, JSON.stringify({
+      'id' : '1',
+      'text' : 'Солнце русской поэззии',
+      'date': '26.10.14 13:30'
+    }));
+    redisClient.rpush(1, JSON.stringify({
+      'id' : '2',
+      'text' : 'Невыразимо',
+      'date': '26.10.14 14:00'
+    }));
+
+    redisClient.select(1, function(){
+      redisClient.sadd("topQuotes", 1)
+      redisClient.quit();
+    });
+
   });
+  
 
 });
