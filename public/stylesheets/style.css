@@ -19,7 +19,7 @@ button{
 }
 
 .content a{
-  color: #4ab;
+  color: #0cf;  /*00aabb / #00ddff */
   outline: 0;
 }
 
@@ -105,7 +105,7 @@ button{
 
 .quote .controls a{
   text-decoration: none;
-  color: #4ab;
+  color: #0cf;
 }
 
 .quote .controls a:hover{
@@ -172,7 +172,7 @@ button{
 
 .quoteAddForm button{
   border: none;
-  background: #4ab;
+  background: #0cf;
   color: white;
   padding: 5px 20px;
   text-transform: uppercase;
@@ -203,7 +203,7 @@ button{
 
 .messageWindow > .messageText{
   padding-top: 10px;
-  color: #4ab;
+  color: #0cf;
   font-size: 3em;
 }
 
@@ -235,8 +235,8 @@ button{
 }
 
 .quote.opened-quote{
-  background: #0af;
-  color: #eee;
+  background: #0cf;
+  color: #fff;
 }
 
 .quote.opened-quote .text,
@@ -250,4 +250,3 @@ button{
   margin: 0% 5%;
   padding: 5px;
 }
-
