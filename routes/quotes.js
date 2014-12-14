@@ -89,14 +89,10 @@ exports.add = function(req, res){
 exports.comments = function(req, res){
   var quoteId = req.params.quoteId;
   var redisClient = req.redisClient;
-  console.log("Comments of " + quoteId);
   redisClient.select(DB_COMMENTS, function(){
-    redisClient.lrange(1, 0, -1, function(err, comments){
-      if(err == null){
-        res.json({'result': 'success', 'comments' : comments});
-      }else{
-        res.json({'result': 'fail', 'msg': 'No such quote:' + quoteId});
-      }
+    redisClient.lrange(quoteId, 0, -1, function(err, comments){
+      var normalizedArray = comments.map(function(quote){return JSON.parse(quote)})
+      res.json(normalizedArray)
       redisClient.select(0) // TODO: this about it
     });
   });

@@ -116,7 +116,7 @@ button{
   float: right;
 }
 
-.quote .quote_date{
+.quote .quote_date{ //TODO: rename this 
   /*padding-right: 0px;*/
 }
 
@@ -221,17 +221,17 @@ button{
 }
 
 .comments{
-  height: 300px;
+  height: 100px;
   -webkit-transition: all 200ms ease-out;
      -moz-transition: all 200ms ease-out;
       -ms-transition: all 200ms ease-out;
        -o-transition: all 200ms ease-out;
           transition: all 200ms ease-out;
-   overflow: hidden;
 }
 
 .comments.hidden{
   height: 0px;
+  overflow: hidden;
 }
 
 .quote.opened-quote{
@@ -244,3 +244,10 @@ button{
 .quote.opened-quote .quote-comments-button:before{
   color: #fff;
 }
+
+.comment{
+  width: 90%;
+  margin: 0% 5%;
+  padding: 5px;
+}
+

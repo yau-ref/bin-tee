@@ -93,17 +93,28 @@ function loadComments(quoteId){
     url: '/quotes/' + quoteId + '/comments',
     datatype: 'json', 
     success: function(comments){
-      $('#q'+quoteId).empty();
+      $('#quote-comments-'+quoteId).empty();
+      //TODO: check result status
       for(var i in comments) {
-        $('#q'+quoteId).append($(makeComment(comments[i])))
+        $("#quote-comments-" + quoteId).append($(makeComment(comments[i])))
       }
     }
   })
 };
 
+function makeComment(commentData){
+  var template =  '<div id="c{id}" class="comment"> \
+                      <p class="comment-text">{text}</p> \
+                      <p class="comment-info"> \
+                        <span class="comment-date">{date}</span> \
+                      </p> \
+                   </div>';
+  return template.supplant({date: commentData.date, id: commentData.id}).supplant({text: commentData.text})
+};
 
 
 // HANDLERS
+
 function voteUp(id){
   vote(id, 1);
   return false;
