@@ -213,7 +213,7 @@ button{
 }
 
 .quote-comments-button{
-  padding-left: 220px;
+  padding-left: 260px;
 }
 
 .quote-comments-button:before{
@@ -221,6 +221,7 @@ button{
 }
 
 .comments{
+  padding-top: 20px;
   height: 100px;
   -webkit-transition: all 200ms ease-out;
      -moz-transition: all 200ms ease-out;
@@ -231,6 +232,7 @@ button{
 
 .comments.hidden{
   height: 0px;
+  padding-top: 0px;
   overflow: hidden;
 }
 
@@ -245,8 +247,13 @@ button{
   color: #fff;
 }
 
+.quote-comments{
+  height: 200px;
+}
+
 .comment{
   width: 90%;
   margin: 0% 5%;
   padding: 5px;
 }
+
