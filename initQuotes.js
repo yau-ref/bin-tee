@@ -1,6 +1,7 @@
 var redis = require('redis');
 var redisClient = redis.createClient(6379, 'localhost');
 
+redisClient.flushall();
 
 redisClient.select(0, function(){
   redisClient.set(2, JSON.stringify({
