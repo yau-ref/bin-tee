@@ -93,11 +93,16 @@ function loadComments(quoteId){
     url: '/quotes/' + quoteId + '/comments',
     datatype: 'json', 
     success: function(comments){
-      $('#quote-comments-'+quoteId).empty();
+      var quoteComments = $("#quote-comments-" + quoteId)
+      quoteComments.empty();
       //TODO: check result status
       for(var i in comments) {
-        $("#quote-comments-" + quoteId).append($(makeComment(comments[i])))
+        quoteComments.append($(makeComment(comments[i])))
       }
+      quoteComments.append('<form>\
+                             <textarea placeholder="Your comment text"></textarea> \
+                             <button>SEND</button> \
+                            </form>');
     }
   })
 };
