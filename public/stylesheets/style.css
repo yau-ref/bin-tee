@@ -239,14 +239,15 @@ button{
 }
 
 .quote.opened-quote{
-  background: #0cf;
-  color: #fff;
+  box-shadow: 0px 2px 10px 5px #666;
+  margin-bottom: 15px;
+/*  color: #fff;*/
 }
 
 .quote.opened-quote .text,
 .quote.opened-quote a,
 .quote.opened-quote .quote-comments-button:before{
-  color: #fff;
+/*  color: #fff;*/
 }
 
 .quote-comments{
