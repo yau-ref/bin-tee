@@ -226,7 +226,9 @@ button:hover{
 }
 
 .quote-comments-button{
-  padding-left: 260px;
+  padding: 0px 210px;
+  margin: 0px 10px;
+  text-align: center;
 }
 
 .quote-comments-button:before{
