@@ -18,6 +18,31 @@ button{
           transition: all 200ms ease-out;
 }
 
+button, 
+textarea,
+input{
+  border: 1px solid #aaa;
+  resize: none;
+}
+
+textarea:active,
+textarea:focus{
+  outline: 0;
+}
+
+button{
+  background: #0cf;
+  color: #fff;
+  padding: 5px 20px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+button:hover{
+  color: #000;
+  background: #ff0;
+}
+
 .content a{
   color: #0cf;  /*00aabb / #00ddff */
   outline: 0;
@@ -172,20 +197,6 @@ button{
   resize: none;
 }
 
-.quoteAddForm button{
-  border: none;
-  background: #0cf;
-  color: white;
-  padding: 5px 20px;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.quoteAddForm button:hover{
-  color: #000;
-  background: #ff0;
-}
-
 .messageWindow{
   position: absolute; 
   top: 0; left: 0; right: 0; bottom: 0;
@@ -241,7 +252,7 @@ button{
 .quote.opened-quote{
   box-shadow: 0px 2px 10px 5px #666;
   margin-bottom: 15px;
-/*  color: #fff;*/
+  background: #fff;
 }
 
 .quote.opened-quote .text,
@@ -259,30 +270,25 @@ button{
   margin-bottom: 10px;
 }
 
-.quote.opened-quote textarea{
-  padding: 5px;
-  margin-top: 20px; 
-  height: 70px;
-  resize: none;
-  border-radius: 5px 5px 0px 0px;
-  padding: 2px;
-}
-
 .quote.opened-quote textarea,
 .quote.opened-quote button{
   width: 90%;
-  padding: 0px;
   margin: 0px;
-  border: 0px solid #fff;
   background: #fff;
   outline: 0;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+.quote.opened-quote textarea{
+  margin-top: 20px; 
+  height: 70px;
+  border-bottom: 0px;
 }
 
 .quote.opened-quote button{
-  cursor: pointer;
-  border-radius: 0px 0px 5px 5px;
-}
-
-.quote.opened-quote button:hover{
+  margin-top: -5px;
+  border-top: none;
   color: #0cf;
+  text-align: right;
 }
