@@ -101,7 +101,7 @@ function loadComments(quoteId){
       }
       var template = '<form>\
                         <textarea id="comment-add-text-{quoteId}" placeholder="Your comment text"></textarea> \
-                        <button onclick="sendComment({quoteId}); return false;">SEND</button> \
+                        <button onclick="sendComment({quoteId}); return false;" class="fa fa-send"></button> \
                       </form>';
       quoteComments.append(template.supplant({quoteId: quoteId}));
     }
