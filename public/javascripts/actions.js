@@ -99,13 +99,31 @@ function loadComments(quoteId){
       for(var i in comments) {
         quoteComments.append($(makeComment(comments[i])))
       }
-      quoteComments.append('<form>\
-                             <textarea placeholder="Your comment text"></textarea> \
-                             <button>SEND</button> \
-                            </form>');
+      var template = '<form>\
+                        <textarea id="comment-add-text-{quoteId}" placeholder="Your comment text"></textarea> \
+                        <button onclick="sendComment({quoteId}); return false;">SEND</button> \
+                      </form>';
+      quoteComments.append(template.supplant({quoteId: quoteId}));
     }
-  })
-};
+  });
+}
+
+function sendComment(quoteId){
+  var commentText = $("textarea#comment-add-text-" + quoteId).val();
+  
+  $.ajax({
+    type: "POST",
+    url: "/quotes/" + quoteId + "/comments",
+    datatype: 'json', 
+    data: {'text': commentText},
+    success: function(){
+      loadComments(quoteId);
+    }
+  });
+  
+  
+  return false;
+}
 
 function makeComment(commentData){
   var template =  '<div id="c{id}" class="comment"> \

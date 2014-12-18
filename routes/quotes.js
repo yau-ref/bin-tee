@@ -100,9 +100,9 @@ exports.comments = function(req, res){
 
 exports.addComment = function(req, res){
   var quoteId = req.params.quoteId
-  var commentsText = req.body.text
-  var safeCommentsText = 
-    commentsText
+  var commentText = req.body.text
+  var safeCommentText = 
+    commentText
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
