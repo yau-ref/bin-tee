@@ -1,7 +1,9 @@
 var DB_COMMENTS = 2;
 
 exports.all = function(req, res){
+    res.write("LOLA")
   var redisClient = req.redisClient
+      res.write("LOLB")
   
   redisClient.scan(0, function(err, ids){
     redisClient.mget(ids[1], function(err, quotes){
