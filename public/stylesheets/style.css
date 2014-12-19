@@ -18,7 +18,6 @@ button{
           transition: all 200ms ease-out;
 }
 
-button, 
 textarea,
 input{
   border: 1px solid #aaa;
@@ -26,9 +25,9 @@ input{
   outline: 0;
 }
 
-
 button{
   background: #0cf;
+  border: none;
   color: #fff;
   padding: 5px 20px;
   text-transform: uppercase;
@@ -270,8 +269,8 @@ button:hover{
   margin-bottom: 10px;
 }
 
-.quote.opened-quote textarea,
-.quote.opened-quote button{
+.quote textarea,
+.quote button{
   width: 90%;
   margin: 0px;
   background: #fff;
@@ -288,6 +287,7 @@ button:hover{
 }
 
 .quote.opened-quote button{
+  border: 1px solid #aaa;
   padding-right: 10px;
   margin-top: -5px;
   border-top: none;
