@@ -18,8 +18,8 @@ html
           li: a(href="/" title="All").linkAll.fa.fa-asterisk
           li: a(href="/top" title="Top").linkTop.fa.fa-star
     div.centered.content#content
-      form#quoteAddForm.quoteAddForm.hidden
-        textarea#quoteAddText(placeholder="Write quote")
-        button#quoteAddButton Add quote
+      form(ng-submit="submit()"  ng-controller="quoteSubmitController")#quoteAddForm.quoteAddForm.hidden
+        textarea(placeholder="Write quote" name="text" ng-model="text")#quoteAddText
+        input(type="submit" value="Add quote")#quoteAddButton
       block content
       
