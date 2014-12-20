@@ -1,4 +1,9 @@
 function pageController($scope, $http){
+
+  $scope. toggleWriteQuoteForm = function(){
+    $('#quoteAddForm').toggleClass("hidden");
+  }  
+  
   loadQuotes($scope, $http);
 }
 
