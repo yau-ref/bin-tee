@@ -9,7 +9,7 @@ body{
 }
 
 a,
-button{
+.button{
   text-decoration: none;
   -webkit-transition: all 200ms ease-out;
      -moz-transition: all 200ms ease-out;
@@ -25,7 +25,7 @@ input{
   outline: 0;
 }
 
-button{
+.button{
   background: #0cf;
   border: none;
   color: #fff;
@@ -34,7 +34,7 @@ button{
   cursor: pointer;
 }
 
-button:hover{
+.button:hover{
   color: #000;
   background: #ff0;
 }
@@ -270,7 +270,7 @@ button:hover{
 }
 
 .quote textarea,
-.quote button{
+.quote .button{
   width: 90%;
   margin: 0px;
   background: #fff;
@@ -286,7 +286,7 @@ button:hover{
   border-bottom: 0px;
 }
 
-.quote.opened-quote button{
+.quote.opened-quote .button{
   border: 1px solid #aaa;
   padding-right: 10px;
   margin-top: -5px;
@@ -295,9 +295,9 @@ button:hover{
   text-align: right;
 }
 
-.quote.opened-quote button:hover,
-.quote.opened-quote button:active,
-.quote.opened-quote button:focus{
+.quote.opened-quote .button:hover,
+.quote.opened-quote .button:active,
+.quote.opened-quote .button:focus{
   color: #0cf;
   outline: 0px;
 }

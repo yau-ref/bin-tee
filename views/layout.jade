@@ -20,6 +20,6 @@ html
     div.centered.content#content
       form(ng-submit="submit()"  ng-controller="quoteSubmitController")#quoteAddForm.quoteAddForm.hidden
         textarea(placeholder="Write quote" name="text" ng-model="text")#quoteAddText
-        input(type="submit" value="Add quote")#quoteAddButton
+        input(type="submit" value="Add quote")#quoteAddButton.button
       block content
       
