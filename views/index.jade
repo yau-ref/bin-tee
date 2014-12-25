@@ -7,9 +7,14 @@ block content
       div.controls
       a(href="#" onclick="voteUp({id}); return false;").voteUp +
       span(id="r{{quote.id}}").rating {{quote.rating}}
-      a(href="#" onclick="voteDown({{quote.id}}); return false;").voteDown +
-      a(href="#" onclick="openComments({{quote.id}}); return false").quote-comments-button.fa.fa-comments-o     
+      a(href="#" ng-click="voteDown(quote.id); return false;").voteDown +
+      a(href="#" ng-click="openComments(quote.id)").quote-comments-button.fa.fa-comments-o
       p.info
         span.quote_date {{quote.date}}
         a(href="/q{{quote.id}}").quote_id \#{{quote.id}}
-        div(id="quote-comments-{{quote.id}}").comments.hidden
+      div(id="quote-comments-{{quote.id}}").comments.hidden
+        div(ng-repeat="comment in comments(quote.id)") {{comment.text}}
+        form
+          textarea(id="comment-add-text-{quoteId}" placeholder="Your comment text")
+          input(type="submit" onclick="sendComment({quoteId}); return false;" value="").button.fa.fa-send
+
