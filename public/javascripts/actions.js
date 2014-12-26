@@ -1,6 +1,31 @@
 function pageController($scope, $http){
-  $scope.toggleWriteQuoteForm = toggleWriteQuoteForm;
+  $scope.toggleWriteQuoteForm = function(){
+    $('#quoteAddForm').toggleClass('hidden');
+  }
+
+  $scope.commentCache = [];
+
+  $scope.comments = function(quoteId){
+    return $scope.commentCache[quoteId];
+  }
+
+  $scope.openComments = function(quoteId){  
+    $('#q'+quoteId).toggleClass('opened-quote')
+    $('#quote-comments-' + quoteId).toggleClass("hidden");
+    loadComments($scope, $http, quoteId);
+  }
+     
   loadQuotes($scope, $http);
+}
+
+function loadComments($scope, $http, quoteId){
+  $http.get('/quotes/' + quoteId + '/comments').
+    success(function(data, status, headers, config) {
+      $scope.commentCache[quoteId] = data
+    }).
+    error(function(data, status, headers, config) {
+      $scope.commentCache[quoteId] = [{text: status}]
+    });
 }
 
 function loadQuotes($scope, $http){
@@ -11,10 +36,6 @@ function loadQuotes($scope, $http){
   responsePromise.error(function(data, status, headers, config) {
     $scope.quotes = [{text: 'Error while loading', rating: status, id: '##', date: ''}];
   });
-}
-
-function toggleWriteQuoteForm(){
-  $('#quoteAddForm').toggleClass('hidden');
 }
 
 function quoteSubmitController($scope, $http){
