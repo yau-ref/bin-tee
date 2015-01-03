@@ -13,7 +13,10 @@ block content
         span.quote_date {{quote.date}}
         a(href="/q{{quote.id}}").quote_id \#{{quote.id}}
       div(id="quote-comments-{{quote.id}}").comments.hidden
-        div(ng-repeat="comment in commentCache[quote.id]") {{comment.text}}
+        div(ng-repeat="comment in commentCache[quote.id]" id="c{{comment.id}}").comment
+          p.comment-text {{comment.text}}
+          p.comment-info
+            span.comment-date {{comment.date}}
         form
           textarea(id="comment-add-text-{{quoteId}}" placeholder="Your comment text")
           input(type="submit" ng-click="sendComment(quoteId); return false;" value="").button.fa.fa-send
