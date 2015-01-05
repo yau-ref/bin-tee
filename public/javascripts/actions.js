@@ -19,6 +19,17 @@ function pageController($scope, $http){
         }
     });
   };
+  
+  $scope.submitComment = function(quoteId){    
+    $http.post('/quotes/' + quoteId + '/comments', {text: this.text}).
+      success(function(data, status, headers, config) {
+        $('#comment-add-text-' + quoteId).val('')
+        loadComments($scope, $http, quoteId);
+      }).
+      error(function(data, status, headers, config) {
+        alert('Error!')
+      });
+  }  
        
   loadQuotes($scope, $http);
 }

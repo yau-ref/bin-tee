@@ -17,6 +17,6 @@ block content
           p.comment-text {{comment.text}}
           p.comment-info
             span.comment-date {{comment.date}}
-        form
-          textarea(id="comment-add-text-{{quoteId}}" placeholder="Your comment text")
-          input(type="submit" ng-click="sendComment(quoteId); return false;" value="").button.fa.fa-send
+        form(ng-submit="submitComment(quote.id)")
+          textarea(id="comment-add-text-{{quote.id}}" name="text" ng-model="text" placeholder="Your comment text")
+          input(type="submit" value="").button.fa.fa-send
