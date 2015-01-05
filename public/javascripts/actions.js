@@ -9,12 +9,21 @@ function pageController($scope, $http){
     return $scope.commentCache[quoteId];
   }
 
-  $scope.openComments = function(quoteId){  
+  $scope.openComments = function(quoteId){
     $('#q'+quoteId).toggleClass('opened-quote')
     $('#quote-comments-' + quoteId).toggleClass("hidden");
     loadComments($scope, $http, quoteId);
   }
-     
+  
+  $scope.voteQuote = function(quoteId, score){
+    $http.get('/q'+ quoteId + '/vote/' + (score > 0 ? 'up' : 'down')).
+      success(function(data, status, headers, config) {
+        if(data.result == 'success'){
+          $('#r'+quoteId).text(data.rating)
+        }
+    });
+  };
+       
   loadQuotes($scope, $http);
 }
 
