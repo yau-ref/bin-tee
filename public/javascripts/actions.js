@@ -1,10 +1,6 @@
 function pageController($scope, $http){
-  $scope.toggleWriteQuoteForm = function(){
-    $('#quoteAddForm').toggleClass('hidden');
-  }
-
+  $scope.toggleWriteQuoteForm = toggleWriteQuoteForm
   $scope.commentCache = [];
-
   $scope.comments = function(quoteId){
     return $scope.commentCache[quoteId];
   }
@@ -45,6 +41,10 @@ function loadQuotes($scope, $http){
   responsePromise.error(function(data, status, headers, config) {
     $scope.quotes = [{text: 'Error while loading', rating: status, id: '##', date: ''}];
   });
+}
+
+function toggleWriteQuoteForm(){
+  $('#quoteAddForm').toggleClass('hidden');
 }
 
 function quoteSubmitController($scope, $http){
