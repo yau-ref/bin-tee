@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  div#quotes
+  div(ng-controller="#{topOnly ? 'topQuotesController' : 'quotesController'}")#quotes
     div(ng-repeat="quote in quotes | orderBy: 'id'" id="q{{quote.id}}").quote
       p.text {{quote.text}}
       div.controls
