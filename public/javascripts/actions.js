@@ -1,6 +1,5 @@
 function pageController($scope, $http){
-  $scope.toggleWriteQuoteForm = toggleWriteQuoteForm
-  
+  $scope.toggleWriteQuoteForm = toggleWriteQuoteForm  
   $scope.commentCache = [];
   $scope.comments = function(quoteId){
     return $scope.commentCache[quoteId];
@@ -19,9 +18,11 @@ function pageController($scope, $http){
     });
   };  
   $scope.submitComment = function(quoteId){    
-    $http.post('/quotes/' + quoteId + '/comments', {text: this.text}).
+    var textarea = $('#comment-add-text-' + quoteId);
+    var text = textarea.val();
+    textarea.val('');
+    $http.post('/quotes/' + quoteId + '/comments', {text: text}).
       success(function(data, status, headers, config) {
-        $('#comment-add-text-' + quoteId).val('')
         loadComments($scope, $http, quoteId);
       }).
       error(function(data, status, headers, config) {

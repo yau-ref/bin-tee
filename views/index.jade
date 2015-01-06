@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  div(ng-controller="quotesController")#quotes
+  div#quotes
     each quote in quotes
       div(id="q#{quote.id}").quote
         p.text #{quote.text}
@@ -14,10 +14,10 @@ block content
           span.quote_date #{quote.date}
           a(href="/q#{quote.id}").quote_id ##{quote.id}
         div(id="quote-comments-#{quote.id}").comments.hidden
-          div(ng-repeat="comment in commentCache[quote.id]" id="c{{comment.id}}").comment
+          div(ng-repeat="comment in commentCache[#{quote.id}]" id="c{{comment.id}}").comment
             p.comment-text {{comment.text}}
             p.comment-info
               span.comment-date {{comment.date}}
-          form(ng-submit="submitComment(quote.id)")
-            textarea(id="comment-add-text-{{quote.id}}" name="text" ng-model="text" placeholder="Your comment text")
+          form(ng-submit="submitComment(#{quote.id})")
+            textarea(id="comment-add-text-#{quote.id}" name="text" placeholder="Your comment text")
             input(type="submit" value="").button.fa.fa-send
