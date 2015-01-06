@@ -1,30 +1,23 @@
 extends layout
 
-mixin quotes
-  div(ng-repeat="quote in quotes | orderBy: 'id'" id="q{{quote.id}}").quote
-    p.text {{quote.text}}
-    div.controls
-    a(href="#" ng-click="voteQuote(quote.id, 1)").voteUp +
-    span(id="r{{quote.id}}").rating {{quote.rating}}
-    a(href="#" ng-click="voteQuote(quote.id, -1)").voteDown -
-    a(href="#" ng-click="openComments(quote.id)").quote-comments-button.fa.fa-comments-o
-    p.info
-      span.quote_date {{quote.date}}
-      a(href="/q{{quote.id}}").quote_id \#{{quote.id}}
-    div(id="quote-comments-{{quote.id}}").comments.hidden
-      div(ng-repeat="comment in commentCache[quote.id]" id="c{{comment.id}}").comment
-        p.comment-text {{comment.text}}
-        p.comment-info
-          span.comment-date {{comment.date}}
-      form(ng-submit="submitComment(quote.id)")
-        textarea(id="comment-add-text-{{quote.id}}" name="text" ng-model="text" placeholder="Your comment text")
-        input(type="submit" value="").button.fa.fa-send
-
-
 block content
-  if quoteId != undefined
-    div(ng-controller="oneQuoteController" ng-init="quoteById(#{quoteId})")#quotes 
-      +quotes
-  else
-    div(ng-controller="#{topOnly ? 'topQuotesController' : 'quotesController'}")#quotes
-      +quotes
+  div(ng-controller="quotesController")#quotes
+    each quote in quotes
+      div(id="q#{quote.id}").quote
+        p.text #{quote.text}
+        div.controls
+        a(href="#" ng-click="voteQuote(#{quote.id}, 1)").voteUp +
+        span(id="r#{quote.id}").rating #{quote.rating}
+        a(href="#" ng-click="voteQuote(#{quote.id}, -1)").voteDown -
+        a(href="#" ng-click="openComments(#{quote.id})").quote-comments-button.fa.fa-comments-o
+        p.info
+          span.quote_date #{quote.date}
+          a(href="/q#{quote.id}").quote_id ##{quote.id}
+        div(id="quote-comments-#{quote.id}").comments.hidden
+          div(ng-repeat="comment in commentCache[quote.id]" id="c{{comment.id}}").comment
+            p.comment-text {{comment.text}}
+            p.comment-info
+              span.comment-date {{comment.date}}
+          form(ng-submit="submitComment(quote.id)")
+            textarea(id="comment-add-text-{{quote.id}}" name="text" ng-model="text" placeholder="Your comment text")
+            input(type="submit" value="").button.fa.fa-send

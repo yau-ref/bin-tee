@@ -1,14 +1,34 @@
 exports.index = function(req, res){
-  res.render('index', { title: '/bin/tee', topOnly: false})
+  var redisClient = req.redisClient
+  redisClient.scan(0, function(err, ids){
+    redisClient.mget(ids[1], function(err, quotes){
+      var normalizedArray = quotes.map(function(quote){return JSON.parse(quote)})
+      res.render('index', { title: '/bin/tee', quotes: normalizedArray})
+    });
+  });
 }
 
 exports.top = function(req, res){
-  res.render('index', { title: '/bin/tee top', topOnly: true})
+  var redisClient = req.redisClient
+  redisClient.select(1, function(){
+    redisClient.smembers("topQuotes", function(err, ids){
+      redisClient.select(0, function(){
+        redisClient.mget(ids, function(err, quotes){
+          var normalizedArray = quotes.map(function(quote){return JSON.parse(quote)});
+          res.render('index', { title: '/bin/tee top', quotes: normalizedArray})
+        });  
+      });
+    });
+  });
 }
 
 exports.quote = function(req, res){
-  var id = req.params.id
-  res.render('index', { title: '/bin/tee ' + id, topOnly: false, quoteId: id})
+  var redisClient = req.redisClient
+  var quoteId = req.params.id
+  redisClient.get(quoteId, function(err, quote){
+    var normalizedQuote = Array(JSON.parse(quote))
+    res.render('index', { title: '/bin/tee #' + quoteId, quotes: normalizedQuote})
+  });
 }
 
 exports.writenew = function(req, res){

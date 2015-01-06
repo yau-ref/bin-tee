@@ -43,36 +43,6 @@ function quoteSubmitController($scope, $http){
   }
 }
 
-function quotesController($scope, $http){
-  loadQuotes($scope, $http, false);
-}
-
-function topQuotesController($scope, $http){
-  loadQuotes($scope, $http, true);
-}
-
-function oneQuoteController($scope, $http){
-  $scope.quoteById = function(quoteId){
-      var responsePromise = $http.get('/quotes/' + quoteId);
-      responsePromise.success(function(data, status, headers, config) {
-        $scope.quotes = data;
-      });
-      responsePromise.error(function(data, status, headers, config) {
-        $scope.quotes = [{text: 'Error while loading', rating: status, id: '##', date: ''}];
-      });
-  }
-}
-
-function loadQuotes($scope, $http, topOnly){
-  var responsePromise = $http.get(topOnly ? '/quotes/top' : '/quotes/');
-  responsePromise.success(function(data, status, headers, config) {
-    $scope.quotes = data;
-  });
-  responsePromise.error(function(data, status, headers, config) {
-    $scope.quotes = [{text: 'Error while loading', rating: status, id: '##', date: ''}];
-  });
-}
-
 function toggleWriteQuoteForm(){
   $('#quoteAddForm').toggleClass('hidden');
 }
