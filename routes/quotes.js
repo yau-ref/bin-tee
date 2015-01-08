@@ -33,26 +33,14 @@ exports.vote = function(req, res){
 
   var score = req.body.score
   var redisClient = req.redisClient     
-  redisClient.get(quoteId, function(err, quote){
-    if(err != null){
+  
+  quotes.vote(redisClient, quoteId, score,
+    function(quote){
+      res.json({'result': 'success', 'rating' : quote.rating})
+    },
+    function(err){
       res.json({'result': 'fail', 'msg': 'No such quote:' + quoteId})
-      return;
-    }
-    
-    var q = JSON.parse(quote)
-    q.rating += (score == 'up' ? 1 : -1)
-    redisClient.set(quoteId, JSON.stringify(q))
-    
-    if(q.rating >= 100){
-      // NOTE: A quote should stay in the Top even if its rating falls below 100
-      redisClient.select(1, function(){
-        redisClient.sadd('topQuotes', quoteId)
-        redisClient.select(0)
-      });
-    }
-    
-    res.json({'result': 'success', 'rating' : q.rating})
-  });
+    });
 }
 
 exports.add = function(req, res){
