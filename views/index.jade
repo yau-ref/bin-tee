@@ -14,10 +14,11 @@ block content
           span.quote_date #{quote.date}
           a(href="/q#{quote.id}").quote_id ##{quote.id}
         div(id="quote-comments-#{quote.id}").comments.hidden
+          form(ng-submit="submitComment(#{quote.id})")
+            textarea(id="comment-add-text-#{quote.id}" name="text" placeholder="Your comment text")
+            input(type="submit" value="").button.fa.fa-send
           div(ng-repeat="comment in commentCache[#{quote.id}]" id="c{{comment.id}}").comment
             p.comment-text {{comment.text}}
             p.comment-info
               span.comment-date {{comment.date}}
-          form(ng-submit="submitComment(#{quote.id})")
-            textarea(id="comment-add-text-#{quote.id}" name="text" placeholder="Your comment text")
-            input(type="submit" value="").button.fa.fa-send
+          
