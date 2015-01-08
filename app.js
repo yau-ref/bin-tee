@@ -14,6 +14,7 @@ app.set('view engine', 'jade');
 app.use(express.logger('dev'));  // ATTENTION! 
 app.use(express.bodyParser());
 app.use(express.cookieParser());
+app.use(express.session({secret: 'lol'})); // ATTENTION! 
 app.use(express.methodOverride());
 
 app.use(function(req,res,next){

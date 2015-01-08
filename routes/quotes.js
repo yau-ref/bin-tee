@@ -21,13 +21,15 @@ exports.byId = function(req, res){
 
 exports.vote = function(req, res){
   var quoteId = req.params.quoteId
-  if(req.cookies.votes === undefined){
-    res.cookie('votes', quoteId, { maxAge: 900000, httpOnly: true })
-  }else if(req.cookies.votes.toString().split(';').indexOf(quoteId) >= 0){
+    
+  if(req.session.votes == undefined){
+    req.session.votes = []
+    req.session.votes[quoteId] = true
+  }else if(req.session.votes[quoteId]){
     res.json({'result': 'fail', 'msg': 'Voted already'})
-    return;
+    return
   }else{
-    res.cookie('votes', req.cookies.votes + ';' + quoteId, { maxAge: 900000, httpOnly: true })
+    req.session.votes[quoteId] = true
   }
 
   var score = req.body.score
