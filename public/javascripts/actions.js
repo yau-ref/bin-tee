@@ -33,7 +33,7 @@ function pageController($scope, $http){
 
 function quoteSubmitController($scope, $http){
   $scope.submit = function(){
-    $http.post('/quotes/add', {text: this.text}).
+    $http.post('/quotes', {text: this.text}).
       success(function(data, status, headers, config) {
         toggleWriteQuoteForm();
         window.location.reload();

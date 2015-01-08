@@ -25,9 +25,9 @@ app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // REST
-app.get('/quotes/', quotes.all);
+app.get('/quotes', quotes.all);
 app.get('/quotes/top', quotes.top);
-app.post('/quotes/add', quotes.add);  // TODO: change url (remove add)
+app.post('/quotes', quotes.add);
 app.get('/quotes/:quoteId/comments', quotes.comments);
 app.post('/quotes/:quoteId/comments', quotes.addComment);
 app.post('/quotes/:quoteId/vote', quotes.vote);
