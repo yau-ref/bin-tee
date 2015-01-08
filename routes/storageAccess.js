@@ -1,3 +1,5 @@
+var DB_COMMENTS = 2;
+
 exports.all = function(redisClient, callback){
   redisClient.scan(0, function(err, ids){
     redisClient.mget(ids[1], function(err, quotesData){
@@ -61,6 +63,19 @@ exports.add = function(redisClient, quoteText){
   var quoteId = Math.round(Math.random() * 1000).toString() //TODO: make it more... predictable
   var quote = JSON.stringify({id: quoteId, text: safeQuoteText, rating: 0, date: currentDate()})
   redisClient.set(quoteId, quote)
+}
+
+exports.comments = function(redisClient, quoteId, successCallback, errorCallback){
+  redisClient.select(DB_COMMENTS, function(){
+    redisClient.lrange(quoteId, 0, -1, function(err, comments){
+      if(err != null){
+        errorCallback(err)
+      }else{
+        var normalizedArray = comments.map(function(quote){return JSON.parse(quote)})
+        successCallback(normalizedArray)
+      }
+    });
+  });
 }
 
 function currentDate(){

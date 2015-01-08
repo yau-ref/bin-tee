@@ -1,5 +1,4 @@
 var quotes = require('./storageAccess.js');
-var DB_COMMENTS = 2;
 
 exports.all = function(req, res){
   quotes.all(req.redisClient, function(quotes){
@@ -53,13 +52,13 @@ exports.add = function(req, res){
 exports.comments = function(req, res){
   var quoteId = req.params.quoteId;
   var redisClient = req.redisClient;
-  redisClient.select(DB_COMMENTS, function(){
-    redisClient.lrange(quoteId, 0, -1, function(err, comments){
-      var normalizedArray = comments.map(function(quote){return JSON.parse(quote)})
-      res.json(normalizedArray)
-      redisClient.select(0) // TODO: this about it
+  quotes.comments(redisClient, quoteId,
+    function(comments){
+      res.json(comments)
+    },
+    function(err){
+      res.json([{text: 'Error while loading comments'}])
     });
-  });
 }
 
 exports.addComment = function(req, res){
