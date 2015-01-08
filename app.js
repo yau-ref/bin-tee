@@ -1,14 +1,21 @@
+var SERVER_HOST = 'localhost'
+var SERVER_PORT = 3000
+var REDIS_HOST = 'localhost'
+var REDIS_PORT = 6379
+
+
 var express = require('express');
 var http = require('http');
 var path = require('path');
 
 var redis = require('redis');
-var redisClient = redis.createClient(6379, 'localhost');
+var redisClient = redis.createClient(REDIS_PORT, REDIS_HOST);
 
 var routes = require('./routes');
 var quotes = require('./routes/quotes');
 var app = express();
-app.set('port', process.env.PORT || 3000);
+//app.set('host', SERVER_HOST);
+app.set('port', 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.logger('dev'));  // ATTENTION! 
