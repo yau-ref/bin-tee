@@ -14,14 +14,14 @@ exports.top = function(req, res){
 }
 
 exports.byId = function(req, res){
-  var quoteId = req.params.id
+  var quoteId = req.params.quoteId
   quotes.byId(req.redisClient, quoteId, function(quote){
     res.json(quote);
   });
 }
 
 exports.vote = function(req, res){
-  var quoteId = req.params.id  
+  var quoteId = req.params.quoteId
   if(req.cookies.votes === undefined){
     res.cookie('votes', quoteId, { maxAge: 900000, httpOnly: true })
   }else if(req.cookies.votes.toString().split(';').indexOf(quoteId) >= 0){
@@ -31,7 +31,7 @@ exports.vote = function(req, res){
     res.cookie('votes', req.cookies.votes + ';' + quoteId, { maxAge: 900000, httpOnly: true })
   }
 
-  var score = req.params.score
+  var score = req.body.score
   var redisClient = req.redisClient     
   redisClient.get(quoteId, function(err, quote){
     if(err != null){

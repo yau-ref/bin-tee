@@ -10,7 +10,7 @@ function pageController($scope, $http){
     $('#quote-comments-' + quoteId).toggleClass("hidden");
   }; 
   $scope.voteQuote = function(quoteId, score){
-    $http.get('/q'+ quoteId + '/vote/' + (score > 0 ? 'up' : 'down')).
+    $http.post('/quotes/'+ quoteId + '/vote', {score: (score > 0 ? 'up' : 'down')}).
       success(function(data, status, headers, config) {
         if(data.result == 'success'){
           $('#r'+quoteId).text(data.rating)

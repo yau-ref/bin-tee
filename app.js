@@ -30,14 +30,14 @@ app.get('/quotes/top', quotes.top);
 app.post('/quotes/add', quotes.add);  // TODO: change url (remove add)
 app.get('/quotes/:quoteId/comments', quotes.comments);
 app.post('/quotes/:quoteId/comments', quotes.addComment);
-app.get('/quotes/:id', quotes.byId);
+app.post('/quotes/:quoteId/vote', quotes.vote);
+app.get('/quotes/:quoteId', quotes.byId);
 
 // Pages
 app.get('/', routes.index);
 app.get('/top', routes.top);
 app.get('/add', routes.writenew);
 app.get('/q:id', routes.quote);
-app.get('/q:id/vote/:score', quotes.vote); //TODO: change method; move to rest esction
 
 app.use(routes.pageNotFound);
 
