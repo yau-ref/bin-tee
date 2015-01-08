@@ -33,7 +33,8 @@ redisClient.select(0, function(){
     }));
 
     redisClient.select(1, function(){
-      redisClient.sadd("topQuotes", 1)
+      redisClient.sadd('topQuotes', 1)
+      redisClient.set('lastQuoteId', 2)
       redisClient.quit();
     });
 

@@ -60,10 +60,13 @@ exports.vote = function(redisClient, quoteId, score, successCallback, errorCallb
 
 exports.add = function(redisClient, quoteText){
   var safeQuoteText = makeItSafe(quoteText)
-  var quoteId = Math.round(Math.random() * 1000).toString() //TODO: make it more... predictable
-  var quote = JSON.stringify({id: quoteId, text: safeQuoteText, rating: 0, date: currentDate()})
-  redisClient.select(DB_QUOTES, function(){
-    redisClient.set(quoteId, quote);
+  redisClient.select(DB_META, function(){
+    redisClient.incr('lastQuoteId', function(err, quoteId){
+      var quote = JSON.stringify({id: quoteId, text: safeQuoteText, rating: 0, date: currentDate()})
+      redisClient.select(DB_QUOTES, function(){
+        redisClient.set(quoteId, quote);
+      });
+    });
   });
 }
 
