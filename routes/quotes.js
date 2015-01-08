@@ -64,19 +64,9 @@ exports.comments = function(req, res){
 exports.addComment = function(req, res){
   var quoteId = req.params.quoteId
   var commentText = req.body.text
-  var safeCommentText = 
-    commentText
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  var commentId = Math.round(Math.random() * 1000).toString()
-  var comment = JSON.stringify({id: commentId, text: safeCommentText, date: currentDate()})
   var redisClient = req.redisClient
-  redisClient.select(DB_COMMENTS, function(){
-    redisClient.rpush(quoteId, comment)
-    redisClient.select(0)
-    res.end()  
-  });
+  res.end()
+  quotes.addComment(redisClient, quoteId, commentText)
 }
+
+

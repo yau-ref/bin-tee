@@ -53,13 +53,7 @@ exports.vote = function(redisClient, quoteId, score, successCallback, errorCallb
 }
 
 exports.add = function(redisClient, quoteText){
-  var safeQuoteText = 
-    quoteText
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+  var safeQuoteText = makeItSafe(quoteText)
   var quoteId = Math.round(Math.random() * 1000).toString() //TODO: make it more... predictable
   var quote = JSON.stringify({id: quoteId, text: safeQuoteText, rating: 0, date: currentDate()})
   redisClient.set(quoteId, quote)
@@ -76,6 +70,24 @@ exports.comments = function(redisClient, quoteId, successCallback, errorCallback
       }
     });
   });
+}
+
+exports.addComment = function(redisClient, quoteId, commentText){
+  var safeCommentText = makeItSafe(commentText)
+  var commentId = Math.round(Math.random() * 1000).toString()
+  var comment = JSON.stringify({id: commentId, text: safeCommentText, date: currentDate()})
+  redisClient.select(DB_COMMENTS, function(){
+    redisClient.rpush(quoteId, comment)
+  });
+}
+
+function makeItSafe(text){
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 function currentDate(){
