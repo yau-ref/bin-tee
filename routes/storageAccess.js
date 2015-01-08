@@ -1,18 +1,22 @@
+var DB_QUOTES = 0;
+var DB_META = 1;
 var DB_COMMENTS = 2;
 
 exports.all = function(redisClient, callback){
-  redisClient.scan(0, function(err, ids){
-    redisClient.mget(ids[1], function(err, quotesData){
-      var quotes = quotesData.map(function(quote){return JSON.parse(quote)});
-      callback(quotes);
+  redisClient.select(DB_QUOTES, function(){
+    redisClient.scan(0, function(err, ids){
+      redisClient.mget(ids[1], function(err, quotesData){
+        var quotes = quotesData.map(function(quote){return JSON.parse(quote)});
+        callback(quotes);
+      });
     });
   });
 };
 
 exports.top = function(redisClient, callback){
-  redisClient.select(1, function(){
+  redisClient.select(DB_META, function(){
     redisClient.smembers("topQuotes", function(err, ids){
-      redisClient.select(0, function(){
+      redisClient.select(DB_QUOTES, function(){
         redisClient.mget(ids, function(err, quotesData){
           var quotes = quotesData.map(function(quote){return JSON.parse(quote)});
           callback(quotes);
@@ -23,32 +27,34 @@ exports.top = function(redisClient, callback){
 };
   
 exports.byId = function(redisClient, quoteId, callback){
-  redisClient.get(quoteId, function(err, quoteData){
-    var quote = Array(JSON.parse(quoteData))
-    callback(quote);
+  redisClient.select(DB_QUOTES, function(){
+    redisClient.get(quoteId, function(err, quoteData){
+      var quote = Array(JSON.parse(quoteData))
+      callback(quote);
+    });
   });
 }
 
 exports.vote = function(redisClient, quoteId, score, successCallback, errorCallback){
-  redisClient.get(quoteId, function(err, quoteData){
-    if(err != null){
-      errorCallback(err);
-      return;
-    }
-    
-    var quote = JSON.parse(quoteData)
-    quote.rating += (score == 'up' ? 1 : -1)
-    redisClient.set(quoteId, JSON.stringify(quote))
-    
-    if(quote.rating >= 100){
-      // NOTE: A quote should stay in the Top even if its rating falls below 100
-      redisClient.select(1, function(){
-        redisClient.sadd('topQuotes', quoteId)
-        redisClient.select(0)
-      });
-    }
-    
-    successCallback(quote)
+  redisClient.select(DB_QUOTES, function(){
+    redisClient.get(quoteId, function(err, quoteData){
+      if(err != null){
+        errorCallback(err);
+        return;
+      }
+      
+      var quote = JSON.parse(quoteData)
+      quote.rating += (score == 'up' ? 1 : -1)
+      redisClient.set(quoteId, JSON.stringify(quote))
+      
+      if(quote.rating >= 100){
+        redisClient.select(DB_META, function(){
+          redisClient.sadd('topQuotes', quoteId)
+        });
+      }
+      
+      successCallback(quote)
+    });
   });
 }
 
@@ -56,7 +62,9 @@ exports.add = function(redisClient, quoteText){
   var safeQuoteText = makeItSafe(quoteText)
   var quoteId = Math.round(Math.random() * 1000).toString() //TODO: make it more... predictable
   var quote = JSON.stringify({id: quoteId, text: safeQuoteText, rating: 0, date: currentDate()})
-  redisClient.set(quoteId, quote)
+  redisClient.select(DB_QUOTES, function(){
+    redisClient.set(quoteId, quote);
+  });
 }
 
 exports.comments = function(redisClient, quoteId, successCallback, errorCallback){
