@@ -11,7 +11,7 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
-app.use(express.logger('dev'));
+app.use(express.logger('dev'));  // ATTENTION! 
 app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.methodOverride());
@@ -41,7 +41,7 @@ app.get('/q:id', routes.quote);
 
 app.use(routes.pageNotFound);
 
-if (app.get('env') === 'development') {
+if (app.get('env') === 'development') { //TODO: Do something with it
   app.use(function(err, req, res, next) {
       res.status(err.status || 500);
       res.render('error', {
