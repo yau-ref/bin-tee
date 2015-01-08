@@ -83,12 +83,15 @@ exports.comments = function(redisClient, quoteId, successCallback, errorCallback
   });
 }
 
-exports.addComment = function(redisClient, quoteId, commentText){
-  var safeCommentText = makeItSafe(commentText)
-  var commentId = Math.round(Math.random() * 1000).toString()
-  var comment = JSON.stringify({id: commentId, text: safeCommentText, date: currentDate()})
-  redisClient.select(DB_COMMENTS, function(){
-    redisClient.rpush(quoteId, comment)
+exports.addComment = function(redisClient, quoteId, commentText){  
+  redisClient.select(DB_META, function(){
+    redisClient.incr('lastCommentId', function(err, commentId){
+      redisClient.select(DB_COMMENTS, function(){
+        var safeCommentText = makeItSafe(commentText)
+        var comment = JSON.stringify({id: commentId, text: safeCommentText, date: currentDate()})
+        redisClient.rpush(quoteId, comment)
+      });
+    });
   });
 }
 

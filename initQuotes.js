@@ -23,7 +23,7 @@ redisClient.select(0, function(){
   redisClient.select(2, function(){
     redisClient.rpush(1, JSON.stringify({
       'id' : '1',
-      'text' : 'Солнце русской поэззии',
+      'text' : 'Солнце русской поэзии',
       'date': '26.10.14 13:30'
     }));
     redisClient.rpush(1, JSON.stringify({
@@ -35,6 +35,7 @@ redisClient.select(0, function(){
     redisClient.select(1, function(){
       redisClient.sadd('topQuotes', 1)
       redisClient.set('lastQuoteId', 2)
+      redisClient.set('lastCommentId', 2)
       redisClient.quit();
     });
 
