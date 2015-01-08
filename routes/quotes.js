@@ -45,18 +45,9 @@ exports.vote = function(req, res){
 
 exports.add = function(req, res){
   var quoteText = req.body.text
-  var safeQuoteText = 
-    quoteText
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  var quoteId = Math.round(Math.random() * 1000).toString()
-  var quote = JSON.stringify({id: quoteId, text: safeQuoteText, rating: 0, date: currentDate()})
-  var redisClient = req.redisClient 
-  redisClient.set(quoteId, quote)
-  res.end() //TODO: move up
+  var redisClient = req.redisClient
+  res.end()
+  quotes.add(req.redisClient, req.body.text)
 }
 
 exports.comments = function(req, res){
@@ -89,20 +80,4 @@ exports.addComment = function(req, res){
     redisClient.select(0)
     res.end()  
   });
-}
-
-function currentDate(){
-
-  function complete(x){
-    return x < 10 ? '0' + x : x
-  }
-
-  var today = new Date();
-  var yy = today.getFullYear().toString().substr(2,2);
-  var dd = complete(today.getDate());
-  var mm = complete(today.getMonth()+1);
-  var hh = complete(today.getHours());
-  var mnt = complete(today.getMinutes());
-
-  return dd+'.'+mm+'.'+yy +' '+ hh + ':' + mnt;
 }

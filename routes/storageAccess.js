@@ -49,3 +49,32 @@ exports.vote = function(redisClient, quoteId, score, successCallback, errorCallb
     successCallback(quote)
   });
 }
+
+exports.add = function(redisClient, quoteText){
+  var safeQuoteText = 
+    quoteText
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  var quoteId = Math.round(Math.random() * 1000).toString() //TODO: make it more... predictable
+  var quote = JSON.stringify({id: quoteId, text: safeQuoteText, rating: 0, date: currentDate()})
+  redisClient.set(quoteId, quote)
+}
+
+function currentDate(){
+
+  function complete(x){
+    return x < 10 ? '0' + x : x
+  }
+
+  var today = new Date();
+  var yy = today.getFullYear().toString().substr(2,2);
+  var dd = complete(today.getDate());
+  var mm = complete(today.getMonth()+1);
+  var hh = complete(today.getHours());
+  var mnt = complete(today.getMinutes());
+
+  return dd+'.'+mm+'.'+yy +' '+ hh + ':' + mnt;
+}
