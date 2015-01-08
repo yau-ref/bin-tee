@@ -1,13 +1,23 @@
 {
   "name": "bintee",
   "version": "0.0.1",
+  "author": {
+    "name": "Yau Ref",
+    "url": "https://github.com/yau-ref"
+  },
   "private": true,
+  "engines": {
+    "node": ">= 0.6.0",
+    "npm": ">= 1.0.0"
+  },
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "dbinit" : "node initQuotes.js"
   },
   "dependencies": {
-    "express": "3.4.0",
+    "express": "~3.4.4",
     "jade": "*",
-    "redis": "*" 
-  }
+    "redis": "0.12.1" 
+  },
+  "main": "app.js"
 }
