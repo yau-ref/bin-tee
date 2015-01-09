@@ -134,7 +134,7 @@ input{
   color: #ff0;
 }
 
-.quote .info{
+.quote > .info{
   float: right;
 }
 
@@ -158,7 +158,6 @@ input{
   margin: 0px;
   padding-bottom: 10px;
   color: #222;
-  overflow: hidden;
 }
 
 .quote a.quote_id{
@@ -270,11 +269,10 @@ input{
   margin: 20px 0px 10px 0px;
 }
 
-.comment-text{
-  overflow: hidden;
+.comment .text{
 }
 
-.comment-info{
+.comment > info{
   padding-top: 10px;
 }
 
@@ -309,4 +307,10 @@ input{
 .quote.opened-quote .button:focus{
   color: #0cf;
   outline: 0px;
+}
+
+.quote .text,
+.comment .text{
+  overflow: hidden;
+  white-space: pre-wrap;
 }
