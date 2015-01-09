@@ -19,7 +19,11 @@ a,
 }
 
 textarea,
-input{
+input,
+select{
+  -webkit-appearance: none;
+  -webkit-border-radius: 0; 
+  border-radius: 0;
   border: 1px solid #aaa;
   resize: none;
   outline: 0;
