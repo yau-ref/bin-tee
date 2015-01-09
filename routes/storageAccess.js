@@ -6,8 +6,7 @@ exports.all = function(redisClient, callback){
   redisClient.select(DB_QUOTES, function(){
     redisClient.scan(0, function(err, ids){
       redisClient.mget(ids[1 /*[pointerId, [ids]]*/], function(err, quotesData){
-        var quotes = quotesData.map(function(quote){return JSON.parse(quote)}).sort(function(a,b) { return a.id - b.id});
-        callback(quotes);
+          callback(parseQuotes(quotesData));
       });
     });
   });
@@ -18,8 +17,7 @@ exports.top = function(redisClient, callback){
     redisClient.smembers("topQuotes", function(err, ids){
       redisClient.select(DB_QUOTES, function(){
         redisClient.mget(ids, function(err, quotesData){
-          var quotes = quotesData.map(function(quote){return JSON.parse(quote)});
-          callback(quotes);
+          callback(parseQuotes(quotesData));
         });  
       });
     });
@@ -118,4 +116,8 @@ function currentDate(){
   var mnt = complete(today.getMinutes());
 
   return dd+'.'+mm+'.'+yy +' '+ hh + ':' + mnt;
+}
+
+function parseQuotes(quotesData){
+  return quotesData.map(function(quote){return JSON.parse(quote)}).sort(function(a,b) { return b.id - a.id});
 }
