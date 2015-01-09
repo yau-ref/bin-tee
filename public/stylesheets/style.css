@@ -40,8 +40,12 @@ input{
 }
 
 .content a{
-  color: #0cf;  /*00aabb / #00ddff */
+  color: #0cf;
   outline: 0;
+}
+
+.content a:hover{
+  color: #ff0;
 }
 
 .header{
@@ -123,23 +127,10 @@ input{
 .quote .controls{
   width: 100%;
   margin: 0px;
+  padding: 0px;
 }
 
-.quote .controls a{
-  text-decoration: none;
-  color: #0cf;
-}
-
-.quote .controls a:hover{
-  color: #ff0;
-}
-
-.quote > .info{
-  float: right;
-}
-
-.quote .quote_date{ //TODO: rename this 
-  /*padding-right: 0px;*/
+.quote .quote_date{
 }
 
 .quote .rating{
@@ -162,7 +153,7 @@ input{
 
 .quote a.quote_id{
   display: inline-block;
-  width: 50px;
+  width: 65px;
   text-align: right;
 }
 
@@ -222,8 +213,7 @@ input{
 }
 
 .quote-comments-button{
-  padding: 0px 210px;
-  margin: 0px 10px;
+  padding: 0px 225px;
   text-align: center;
 }
 
