@@ -1,34 +1,27 @@
-var SERVER_HOST = 'localhost'
-var SERVER_PORT = 3000
-var REDIS_HOST = 'localhost'
-var REDIS_PORT = 6379
-
+var config = require('./config.js')
 
 var express = require('express');
 var http = require('http');
 var path = require('path');
 
 var redis = require('redis');
-var redisClient = redis.createClient(REDIS_PORT, REDIS_HOST);
+var redisClient = redis.createClient(config.redis.port, config.redis.host);
 
 var routes = require('./routes');
 var quotes = require('./routes/quotes');
+
 var app = express();
-//app.set('host', SERVER_HOST);
-app.set('port', 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.logger('dev'));  // ATTENTION! 
 app.use(express.bodyParser());
 app.use(express.cookieParser());
-app.use(express.session({secret: 'lol'})); // ATTENTION! 
+app.use(express.session({secret: config.session.secret})); // ATTENTION! 
 app.use(express.methodOverride());
-
 app.use(function(req,res,next){
   req.redisClient = redisClient;
   next();
 });
-
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -46,7 +39,6 @@ app.get('/', routes.index);
 app.get('/top', routes.top);
 app.get('/add', routes.writenew);
 app.get('/q:id', routes.quote);
-
 app.use(routes.pageNotFound);
 
 if (app.get('env') === 'development') { //TODO: Do something with it
@@ -85,6 +77,6 @@ process.on('exit', exitHandler.bind(null, {cleanup:true}));
 process.on('SIGINT', exitHandler.bind(null, {exit:true}));
 process.on('uncaughtException', exitHandler.bind(null, {exit:true}));
 
-server.listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+server.listen(config.server.port, config.server.host, function(){
+  console.log('Express server listening on port ' + config.server.port);
 });
