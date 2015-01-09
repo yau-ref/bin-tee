@@ -154,8 +154,7 @@ input{
 
 .quote a.quote_id{
   display: inline-block;
-  width: 65px;
-  text-align: right;
+  float: right;
 }
 
 .quote:first-child{
