@@ -5,7 +5,7 @@ var http = require('http');
 var path = require('path');
 
 var redis = require('redis');
-var redisClient = redis.createClient(config.redis.port, config.redis.host);
+var redisClient = redis.createClient(config.redis.port, config.redis.host, config.redis.options);
 
 var routes = require('./routes');
 var quotes = require('./routes/quotes');

@@ -1,6 +1,6 @@
 var config = require('./config.js')
 var redis = require('redis');
-var redisClient = redis.createClient(config.redis.port, config.redis.host);
+var redisClient = redis.createClient(config.redis.port, config.redis.host, config.redis.options);
 
 redisClient.flushall();
 
