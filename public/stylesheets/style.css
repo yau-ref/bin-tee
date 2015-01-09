@@ -257,6 +257,8 @@ input{
 .comment{
   width: 90%;
   margin: 20px 0px 10px 0px;
+  padding-left: 4px;
+  border-left: 3px solid #eee;
 }
 
 .comment .text{
