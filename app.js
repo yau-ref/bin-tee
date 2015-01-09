@@ -16,7 +16,7 @@ app.set('view engine', 'jade');
 app.use(express.logger('dev'));  // ATTENTION! 
 app.use(express.bodyParser());
 app.use(express.cookieParser());
-app.use(express.session({secret: config.session.secret})); // ATTENTION! 
+app.use(express.session({secret: config.session.secret}));
 app.use(express.methodOverride());
 app.use(function(req,res,next){
   req.redisClient = redisClient;

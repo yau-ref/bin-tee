@@ -12,6 +12,6 @@ config.redis.options = {
 }
 
 config.session = {}
-config.session.secret = 'lol';
+config.session.secret = 'lol'; // ATTENTION! 
 
 module.exports = config
