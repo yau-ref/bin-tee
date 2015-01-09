@@ -20,6 +20,14 @@ function pageController($scope, $http){
   $scope.submitComment = function(quoteId){    
     var textarea = $('#comment-add-text-' + quoteId);
     var text = textarea.val();
+    if(text.length < 10){
+      alert('Too short')
+      return;
+    }
+    if(text.trim().length < 10){
+      alert('Too much spaces')
+      return;
+    }    
     textarea.val('');
     $http.post('/quotes/' + quoteId + '/comments', {text: text}).
       success(function(data, status, headers, config) {
@@ -33,7 +41,16 @@ function pageController($scope, $http){
 
 function quoteSubmitController($scope, $http){
   $scope.submit = function(){
-    $http.post('/quotes', {text: this.text}).
+    var text = this.text
+    if(text.length < 10){
+      alert('Too short!')
+      return;
+    }
+    if(text.trim().length < 10){
+      alert('Too much spaces')
+      return;
+    }
+    $http.post('/quotes', {text: text}).
       success(function(data, status, headers, config) {
         toggleWriteQuoteForm();
         window.location.reload();

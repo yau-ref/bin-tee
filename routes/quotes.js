@@ -45,10 +45,11 @@ exports.vote = function(req, res){
 }
 
 exports.add = function(req, res){
-  var quoteText = req.body.text
+  var text = req.body.text
   var redisClient = req.redisClient
-  res.end()
-  quotes.add(req.redisClient, req.body.text)
+  res.end()  
+  if(text.length > 10 && text.trim().length > 10)
+    quotes.add(req.redisClient, text)
 }
 
 exports.comments = function(req, res){
