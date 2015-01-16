@@ -258,6 +258,13 @@ select{
   height: 200px;
 }
 
+.comments-message{
+  padding: 25px 0px 10px 0px;
+  width: 90%;
+  text-align: center;
+  color: #aaa;
+}
+
 .comment{
   width: 90%;
   margin: 20px 0px 10px 0px;

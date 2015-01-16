@@ -16,6 +16,8 @@ block content
           form(ng-submit="submitComment(#{quote.id})")
             textarea(id="comment-add-text-#{quote.id}" name="text" placeholder="Your comment text")
             input(type="submit" value="").button.fa.fa-send
+          p(ng-if="commentCache[#{quote.id}] == null").comments-message Loading comments...
+          p(ng-if="commentCache[#{quote.id}].length == 0").comments-message No comments
           div(ng-repeat="comment in commentCache[#{quote.id}]" id="c{{comment.id}}").comment
             p.text {{comment.text}}
             p.info

@@ -65,12 +65,12 @@ function toggleWriteQuoteForm(){
   $('#quoteAddForm').toggleClass('hidden');
 }
 
-function loadComments($scope, $http, quoteId){
+function loadComments($scope, $http, quoteId){ 
   $http.get('/quotes/' + quoteId + '/comments').
     success(function(data, status, headers, config) {
       $scope.commentCache[quoteId] = data
     }).
     error(function(data, status, headers, config) {
-      $scope.commentCache[quoteId] = [{text: status}]
+//      $scope.commentCache[quoteId] = [{text: status}]
     });
 }
