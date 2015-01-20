@@ -42,9 +42,18 @@ exports.vote = function(req, res){
 }
 
 exports.add = function(req, res){
+  var timestamp = Date.now()
+  if(req.session.lastQuoteTimestamp != undefined){
+    var cooldown = 10000 // TODO: it should be parameter
+    if(timestamp - req.session.lastQuoteTimestamp < cooldown){
+      res.json({'result': 'error', 'msg': 'Cooldown'})
+      return;
+    }
+  }
+  req.session.lastQuoteTimestamp = timestamp  
   var text = req.body.text
   var redisClient = req.redisClient
-  res.end()  
+  res.json({'result':'success'}) // TODO: use http statuses instead
   if(text.length > 10 && text.trim().length > 10)
     quotes.add(req.redisClient, text)
 }
