@@ -42,14 +42,13 @@ exports.vote = function(req, res){
 }
 
 exports.add = function(req, res){
-  var timestamp = Date.now()
-  if(req.session.lastQuoteTimestamp != undefined){
-    var cooldown = 10000 // TODO: it should be parameter
-    var delta = timestamp - req.session.lastQuoteTimestamp < cooldown
-    if(delta < cooldown){
-      res.status(429).json({'err': 'Cooldown', 'timeout': cooldown - delta})
-      return;
-    }
+  var timestamp = Date.now();
+  var cooldown = 60000 * 5;
+  var timeout = restTimeout(timestamp, req.session.lastQuoteTimestamp, cooldown);
+  console.log(timeout)
+  if(timeout > 0){
+    res.status(429).json({'err': 'Cooldown', 'timeout': timeout})
+    return;
   }
   req.session.lastQuoteTimestamp = timestamp  
   var text = req.body.text
@@ -72,6 +71,14 @@ exports.comments = function(req, res){
 }
 
 exports.addComment = function(req, res){
+  var timestamp = Date.now();
+  var cooldown = 60000;
+  var timeout = restTimeout(timestamp, req.session.lastCommentTimestamp, cooldown);
+  if(timeout > 0){
+    res.status(429).json({'err': 'Cooldown', 'timeout': timeout})
+    return;
+  }
+  req.session.lastCommentTimestamp = timestamp  
   var quoteId = req.params.quoteId
   var commentText = req.body.text
   var redisClient = req.redisClient
@@ -79,4 +86,8 @@ exports.addComment = function(req, res){
   quotes.addComment(redisClient, quoteId, commentText)
 }
 
-
+function restTimeout(now, last, cooldown){
+  if(last == null)
+    return 0;
+  return cooldown - now + last;
+}

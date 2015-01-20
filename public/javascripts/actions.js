@@ -32,7 +32,7 @@ function pageController($scope, $http){
         loadComments($scope, $http, quoteId);
       }).
       error(function(data, status, headers, config) {
-        alert('Error!')
+        alert('Status: ' + status + '; msg: ' + data.err + '; timeout: ' + data.timeout)
       });
   };       
 }
@@ -54,7 +54,7 @@ function quoteSubmitController($scope, $http){
         window.location.reload();
       }).
       error(function(data, status, headers, config) {
-        alert('Error!' + status + ' = ' + data.err)
+        alert('Status: ' + status + '; msg: ' + data.err + '; timeout: ' + data.timeout)
       });
   }
 }
