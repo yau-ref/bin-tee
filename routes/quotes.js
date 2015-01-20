@@ -21,27 +21,24 @@ exports.byId = function(req, res){
 
 exports.vote = function(req, res){
   var quoteId = req.params.quoteId
-    
+  var score = (req.body.score == 'up' ? 1 : -1)
   if(req.session.votes == undefined){
     req.session.votes = []
-    req.session.votes[quoteId] = true
-  }else if(req.session.votes[quoteId]){
-    res.json({'result': 'fail', 'msg': 'Voted already'})
-    return
-  }else{
-    req.session.votes[quoteId] = true
+    req.session.votes[quoteId] = 0;
   }
-
-  var score = req.body.score
-  var redisClient = req.redisClient     
-  
-  quotes.vote(redisClient, quoteId, score,
-    function(quote){
-      res.json({'result': 'success', 'rating' : quote.rating})
-    },
-    function(err){
-      res.json({'result': 'fail', 'msg': 'No such quote:' + quoteId})
-    });
+  var userScore = score + req.session.votes[quoteId];
+  if(userScore > 1 || userScore < -1){
+    res.json({'result': 'fail', 'msg': 'Voted already'})
+  }else{
+    req.session.votes[quoteId] = userScore
+    quotes.vote(req.redisClient, quoteId, score,
+      function(quote){
+        res.json({'result': 'success', 'rating' : quote.rating})
+      },
+      function(err){
+        res.json({'result': 'fail', 'msg': 'No such quote:' + quoteId})
+      });
+  }
 }
 
 exports.add = function(req, res){

@@ -42,7 +42,7 @@ exports.vote = function(redisClient, quoteId, score, successCallback, errorCallb
       }
       
       var quote = JSON.parse(quoteData)
-      quote.rating += (score == 'up' ? 1 : -1)
+      quote.rating += score
       redisClient.set(quoteId, JSON.stringify(quote))
       
       if(quote.rating >= 100){
