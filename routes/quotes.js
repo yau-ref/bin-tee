@@ -28,15 +28,15 @@ exports.vote = function(req, res){
   }
   var userScore = score + req.session.votes[quoteId];
   if(userScore > 1 || userScore < -1){
-    res.json({'result': 'fail', 'msg': 'Voted already'})
+    res.status(403).json({'err': 'Voted already'})
   }else{
     req.session.votes[quoteId] = userScore
     quotes.vote(req.redisClient, quoteId, score,
       function(quote){
-        res.json({'result': 'success', 'rating' : quote.rating})
+        res.json({'rating' : quote.rating})
       },
       function(err){
-        res.json({'result': 'fail', 'msg': 'No such quote:' + quoteId})
+        res.status(404).json({'err': 'No such quote: ' + quoteId})
       });
   }
 }
@@ -45,15 +45,16 @@ exports.add = function(req, res){
   var timestamp = Date.now()
   if(req.session.lastQuoteTimestamp != undefined){
     var cooldown = 10000 // TODO: it should be parameter
-    if(timestamp - req.session.lastQuoteTimestamp < cooldown){
-      res.json({'result': 'error', 'msg': 'Cooldown'})
+    var delta = timestamp - req.session.lastQuoteTimestamp < cooldown
+    if(delta < cooldown){
+      res.status(429).json({'err': 'Cooldown', 'timeout': cooldown - delta})
       return;
     }
   }
   req.session.lastQuoteTimestamp = timestamp  
   var text = req.body.text
   var redisClient = req.redisClient
-  res.json({'result':'success'}) // TODO: use http statuses instead
+  res.end();
   if(text.length > 10 && text.trim().length > 10)
     quotes.add(req.redisClient, text)
 }
@@ -66,7 +67,7 @@ exports.comments = function(req, res){
       res.json(comments)
     },
     function(err){
-      res.json([{text: 'Error while loading comments'}])
+      res.status(500).json([{'err': 'Error while loading comments'}])
     });
 }
 

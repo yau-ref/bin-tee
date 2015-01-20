@@ -12,10 +12,8 @@ function pageController($scope, $http){
   $scope.voteQuote = function(quoteId, score){
     $http.post('/quotes/'+ quoteId + '/vote', {score: (score > 0 ? 'up' : 'down')}).
       success(function(data, status, headers, config) {
-        if(data.result == 'success'){
-          $('#r'+quoteId).text(data.rating)
-        }
-    });
+        $('#r'+quoteId).text(data.rating)
+      });
   };  
   $scope.submitComment = function(quoteId){    
     var textarea = $('#comment-add-text-' + quoteId);
@@ -56,7 +54,7 @@ function quoteSubmitController($scope, $http){
         window.location.reload();
       }).
       error(function(data, status, headers, config) {
-        alert('Error!')
+        alert('Error!' + status + ' = ' + data.err)
       });
   }
 }
