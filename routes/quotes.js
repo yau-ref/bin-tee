@@ -45,7 +45,6 @@ exports.add = function(req, res){
   var timestamp = Date.now();
   var cooldown = 60000 * 5;
   var timeout = restTimeout(timestamp, req.session.lastQuoteTimestamp, cooldown);
-  console.log(timeout)
   if(timeout > 0){
     res.status(429).json({'err': 'Cooldown', 'timeout': timeout})
     return;

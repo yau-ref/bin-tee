@@ -32,7 +32,8 @@ function pageController($scope, $http){
         loadComments($scope, $http, quoteId);
       }).
       error(function(data, status, headers, config) {
-        alert('Status: ' + status + '; msg: ' + data.err + '; timeout: ' + data.timeout)
+        if(status == 429)
+          alertTimeoutError(data.timeout, 'commenting')
       });
   };       
 }
@@ -54,9 +55,16 @@ function quoteSubmitController($scope, $http){
         window.location.reload();
       }).
       error(function(data, status, headers, config) {
-        alert('Status: ' + status + '; msg: ' + data.err + '; timeout: ' + data.timeout)
+        if(status == 429)
+          alertTimeoutError(data.timeout, 'posting')
       });
   }
+}
+
+function alertTimeoutError(rawTimeout, actionName){
+  var timeout = Math.round(rawTimeout / 1000)
+  var time = timeout > 59 ? Math.round(timeout / 60) + ' minutes' : timeout + ' seconds'
+  alert('You are ' + actionName +' to often. Try after ' + time)
 }
 
 function toggleWriteQuoteForm(){
