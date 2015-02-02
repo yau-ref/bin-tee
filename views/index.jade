@@ -19,7 +19,7 @@ block content
           p(ng-if="commentCache[#{quote.id}] == null").comments-message Loading comments...
           p(ng-if="commentCache[#{quote.id}].length == 0").comments-message No comments
           div(ng-repeat="comment in commentCache[#{quote.id}]" id="c{{comment.id}}").comment
-            p.text {{comment.text}}
+            p(ng-bind-html="comment.text").text
             p.info
-              span.comment-date {{comment.date}}
+              span(ng-bind="comment.date").comment-date
           

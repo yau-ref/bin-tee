@@ -1,3 +1,5 @@
+angular.module('bintee', ['ngSanitize']);
+  
 function pageController($scope, $http){
   $scope.toggleWriteQuoteForm = toggleWriteQuoteForm  
   $scope.commentCache = [];
