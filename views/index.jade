@@ -4,7 +4,7 @@ block content
   div#quotes
     each quote in quotes
       div(id="q#{quote.id}").quote
-        p.text #{quote.text}
+        p.text !{quote.text}
         p.controls
           a(href="#" ng-click="voteQuote(#{quote.id}, 1)").voteUp +
           span(id="r#{quote.id}").rating #{quote.rating}
