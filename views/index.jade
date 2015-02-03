@@ -3,13 +3,14 @@ extends layout
 block content
   div#quotes
     each quote in quotes
+      a(name="q#{quote.id}")
       div(id="q#{quote.id}").quote
         p.text !{quote.text}
         p.controls
           a(href="" ng-click="voteQuote(#{quote.id}, 1)").voteUp +
           span(id="r#{quote.id}").rating #{quote.rating}
           a(href="" ng-click="voteQuote(#{quote.id}, -1)").voteDown -
-          a(href="" ng-click="openComments(#{quote.id})").quote-comments-button.fa.fa-comments-o
+          a(href="#q#{quote.id}" ng-click="openComments(#{quote.id})").quote-comments-button.fa.fa-comments-o
           span.quote_date #{quote.date}
           a(href="/q#{quote.id}").quote_id ##{quote.id}
         div(id="quote-comments-#{quote.id}").comments.hidden
