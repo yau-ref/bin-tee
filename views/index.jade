@@ -6,10 +6,10 @@ block content
       div(id="q#{quote.id}").quote
         p.text !{quote.text}
         p.controls
-          a(href="#" ng-click="voteQuote(#{quote.id}, 1)").voteUp +
+          a(href="" ng-click="voteQuote(#{quote.id}, 1)").voteUp +
           span(id="r#{quote.id}").rating #{quote.rating}
-          a(href="#" ng-click="voteQuote(#{quote.id}, -1)").voteDown -
-          a(href="#" ng-click="openComments(#{quote.id})").quote-comments-button.fa.fa-comments-o
+          a(href="" ng-click="voteQuote(#{quote.id}, -1)").voteDown -
+          a(href="" ng-click="openComments(#{quote.id})").quote-comments-button.fa.fa-comments-o
           span.quote_date #{quote.date}
           a(href="/q#{quote.id}").quote_id ##{quote.id}
         div(id="quote-comments-#{quote.id}").comments.hidden
@@ -22,4 +22,3 @@ block content
             p(ng-bind-html="comment.text").text
             p.info
               span(ng-bind="comment.date").comment-date
-          
