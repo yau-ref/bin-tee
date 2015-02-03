@@ -13,7 +13,20 @@ var quotes = require('./routes/quotes');
 var app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+
+// Extracting real client ip in case we behind a proxy
+express.logger.token('non-proxy-ip', function(request) {
+  if (request['headers'] && request['headers']['x-forwarded-for'])
+    return request['headers']['x-forwarded-for']
+  if (request['socket'] && request['socket']['remoteAddress'])
+    return request['socket']['remoteAddress']
+  return '';
+});
+express.logger.format('proxy',
+  ':non-proxy-ip :remote-addr - - [:date] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'
+);
 app.use(express.logger('dev'));  // ATTENTION! 
+
 app.use(express.bodyParser());
 app.use(express.cookieParser());
 app.use(express.session({secret: config.session.secret}));
