@@ -15,7 +15,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
 // Extracting real client ip in case we behind a proxy
-express.logger.token('non-proxy-ip', function(request) {
+express.logger.token('non-proxy-ip', function(request){
   if (request['headers'] && request['headers']['x-forwarded-for'])
     return request['headers']['x-forwarded-for']
   if (request['socket'] && request['socket']['remoteAddress'])
@@ -38,13 +38,32 @@ app.use(function(req,res,next){
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
+function checkCooldown(cooldown, actionName){
+  return function(req, res, next){
+    //var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    if(!req.session.rateLimitations)
+      req.session.rateLimitations = {}
+    var now = Date.now();
+    var last = req.session.rateLimitations[actionName];
+    var timeout =  last == null ? 0 : cooldown - now + last;
+    if(timeout > 0){
+      res.status(429).json({'err': 'cooldown', 'timeout': timeout})
+    }else{
+      req.session.rateLimitations[actionName] = now
+      next()
+    }
+  }
+}
+
+var ONE_MINUTE = 60000;
+
 // REST
 app.get('/quotes', quotes.all);
 app.get('/quotes/top', quotes.top);
-app.post('/quotes', quotes.add);
+app.post('/quotes', checkCooldown(ONE_MINUTE * 5, 'QuotePosting'), quotes.add);
 app.get('/quotes/:quoteId/comments', quotes.comments);
-app.post('/quotes/:quoteId/comments', quotes.addComment);
-app.post('/quotes/:quoteId/vote', quotes.vote);
+app.post('/quotes/:quoteId/comments', checkCooldown(ONE_MINUTE, 'CommentPosting'), quotes.addComment);
+app.post('/quotes/:quoteId/vote', /*checkCooldown(ONE_MINUTE),*/quotes.vote);
 app.get('/quotes/:quoteId', quotes.byId);
 
 // Pages
