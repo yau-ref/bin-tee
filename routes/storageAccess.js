@@ -4,8 +4,8 @@ var DB_COMMENTS = 2;
 
 exports.all = function(redisClient, callback){
   redisClient.select(DB_QUOTES, function(){
-    redisClient.scan(0, function(err, ids){
-      redisClient.mget(ids[1 /*[pointerId, [ids]]*/], function(err, quotesData){
+    redisClient.keys('*', function(err, ids){
+      redisClient.mget(ids, function(err, quotesData){
           callback(parseQuotes(quotesData));
       });
     });
