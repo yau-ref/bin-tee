@@ -22,7 +22,7 @@ exports.byId = function(req, res){
 exports.vote = function(req, res){
   var quoteId = req.params.quoteId
   var score = (req.body.score == 'up' ? 1 : -1)
-  if(req.session.votes == undefined){
+  if(!req.session.votes){
     req.session.votes = []
     req.session.votes[quoteId] = 0;
   }
@@ -52,9 +52,15 @@ exports.add = function(req, res){
   req.session.lastQuoteTimestamp = timestamp  
   var text = req.body.text
   var redisClient = req.redisClient
-  res.end();
-  if(text.length > 10 && text.trim().length > 10)
-    quotes.add(req.redisClient, text)
+  if(text.length < 10 && text.trim().length < 10)
+    res.status(403).send('Too short');
+  else
+    quotes.add(req.redisClient, text, function(err, quoteId){
+      if(!err)
+        res.json({'quoteId': quoteId})
+      else
+        res.status(500)
+    })
 }
 
 exports.comments = function(req, res){

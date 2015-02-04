@@ -56,14 +56,15 @@ exports.vote = function(redisClient, quoteId, score, successCallback, errorCallb
   });
 }
 
-exports.add = function(redisClient, quoteText){
+exports.add = function(redisClient, quoteText, callback){
   var safeQuoteText = makeItSafe(quoteText)
   redisClient.select(DB_META, function(){
-    redisClient.incr('lastQuoteId', function(err, quoteId){
-      var quote = JSON.stringify({id: quoteId, text: safeQuoteText, rating: 0, date: currentDate()})
+    redisClient.incr('lastQuoteId', function(err, quoteId){ // TODO: ERROR HANDLING
       redisClient.select(DB_QUOTES, function(){
+        var quote = JSON.stringify({id: quoteId, text: safeQuoteText, rating: 0, date: currentDate()})
         redisClient.set(quoteId, quote);
       });
+      callback(err, quoteId)
     });
   });
 }
