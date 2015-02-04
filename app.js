@@ -53,24 +53,9 @@ app.get('/top', routes.top);
 app.get('/add', routes.writenew);
 app.get('/q:id', routes.quote);
 app.use(routes.pageNotFound);
-
-if (app.get('env') === 'development') { //TODO: Do something with it
-  app.use(function(err, req, res, next) {
-      res.status(err.status || 500);
-      res.render('error', {
-          message: err.message,
-          error: err
-      });
-  });
-}else{
-  app.use(function(err, req, res, next) {
-      res.status(err.status || 500);
-      res.render('error', {
-          message: err.message,
-          error: {}
-      });
-  });
-}
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500).end();
+});
 
 var server = http.createServer(app);
 
