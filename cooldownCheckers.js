@@ -31,10 +31,12 @@ exports.checkIPCooldown = function(sessionLimit, cooldown){
     var now = Date.now();
     var last = iptable[ip].lastAccess;
     var timeout = !last ? 0 : cooldown - now + last;
-    if(timeout <= 0)
+    if(timeout <= 0){
       iptable[ip].lastAccess = now;
-    else if(iptable[ip].count > sessionLimit)
-      res.status(429).json({'err': 'cooldown', 'timeout': timeout})
+    }else if(iptable[ip].count > sessionLimit){
+      res.status(429).json({'err': 'cooldown', 'timeout': timeout})      
+      return;
+    }
     next();
   }
 }
