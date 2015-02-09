@@ -1,4 +1,5 @@
 var config = require('./config.js')
+var cooldownCheckers = require('./cooldownCheckers.js')
 
 var express = require('express');
 var http = require('http');
@@ -38,56 +39,15 @@ app.use(function(req,res,next){
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-function checkSessionCooldown(cooldown, actionName){
-  return function(req, res, next){
-    if(typeof req.session.rateLimitations == 'undefined')
-      req.session.rateLimitations = {}
-    var now = Date.now();
-    var last = req.session.rateLimitations[actionName];
-    var timeout =  !last ? 0 : cooldown - now + last;
-    if(timeout > 0){
-      res.status(429).json({'err': 'cooldown', 'timeout': timeout})
-    }else{
-      req.session.rateLimitations[actionName] = now
-      next()
-    }
-  }
-}
-
-function checkIPCooldown(sessionLimit, cooldown){
-  var iptable = {};
-  return function(req, res, next){
-    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    if(typeof iptable[ip] == 'undefined'){
-      iptable[ip] = {};
-      iptable[ip].sessions = {};
-      iptable[ip].count = 0;
-      iptable[ip].lastVisit = 0;
-    }
-    if(!iptable[ip].sessions[req.sessionID]){
-      iptable[ip].sessions[req.sessionID] = true;
-      iptable[ip].count += 1;
-    }
-    var now = Date.now();
-    var last = iptable[ip].lastVisit;
-    var timeout = !last ? 0 : cooldown - now + last;
-    if(timeout <= 0)
-      iptable[ip].lastVisit = now;
-    else if(iptable[ip].count > sessionLimit)
-      res.status(429).json({'err': 'cooldown', 'timeout': timeout})
-    next();
-  }
-}
-
 var ONE_MINUTE = 60000; 
 
 // REST
 app.get('/quotes', quotes.all);
 app.get('/quotes/top', quotes.top);
-app.post('/quotes', checkIPCooldown(50, ONE_MINUTE * 5), checkSessionCooldown(ONE_MINUTE * 5, 'QuotePosting'), quotes.add);
+app.post('/quotes', cooldownCheckers.checkIPCooldown(50, ONE_MINUTE * 5), cooldownCheckers.checkSessionCooldown(ONE_MINUTE * 5, 'QuotePosting'), quotes.add);
 app.get('/quotes/:quoteId/comments', quotes.comments);
-app.post('/quotes/:quoteId/comments', checkIPCooldown(50, ONE_MINUTE * 5), checkSessionCooldown(ONE_MINUTE, 'CommentPosting'), quotes.addComment);
-app.post('/quotes/:quoteId/vote', checkIPCooldown(50, ONE_MINUTE * 5), quotes.vote);
+app.post('/quotes/:quoteId/comments', cooldownCheckers.checkIPCooldown(50, ONE_MINUTE * 5), cooldownCheckers.checkSessionCooldown(ONE_MINUTE, 'CommentPosting'), quotes.addComment);
+app.post('/quotes/:quoteId/vote', cooldownCheckers.checkIPCooldown(25, ONE_MINUTE * 5), quotes.vote);
 app.get('/quotes/:quoteId', quotes.byId);
 
 // Pages
