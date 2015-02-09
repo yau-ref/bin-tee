@@ -6,10 +6,10 @@ exports.forSession = function(cooldown, actionName){
     var last = req.session.lastAccess[actionName];
     var timeout =  !last ? 0 : cooldown - now + last;
     if(timeout > 0){
-      res.status(429).json({'err': 'cooldown', 'timeout': timeout})
+      res.status(429).json({'err': 'cooldown', 'timeout': timeout});
     }else{
-      req.session.lastAccess[actionName] = now
-      next()
+      req.session.lastAccess[actionName] = now;
+      next();
     }
   }
 }
@@ -34,7 +34,7 @@ exports.forIP = function(sessionLimit, cooldown){
     if(timeout <= 0){
       iptable[ip].lastAccess = now;
     }else if(iptable[ip].count > sessionLimit){
-      res.status(429).json({'err': 'cooldown', 'timeout': timeout})      
+      res.status(429).json({'err': 'cooldown', 'timeout': timeout});
       return;
     }
     next();

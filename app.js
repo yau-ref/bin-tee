@@ -39,15 +39,21 @@ app.use(function(req,res,next){
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-var ONE_MINUTE = 60000; 
-
 // REST
 app.get('/quotes', quotes.all);
 app.get('/quotes/top', quotes.top);
-app.post('/quotes', cooldownCheckers.forIP(50, ONE_MINUTE * 5), cooldownCheckers.forSession(ONE_MINUTE * 5, 'QuotePosting'), quotes.add);
+app.post('/quotes',
+  cooldownCheckers.forIP(config.cooldown.quotePosting.sessionLimit, config.cooldown.quotePosting.ipTimeout),
+  cooldownCheckers.forSession(config.cooldown.quotePosting.sessionTimeout, 'QuotePosting'),
+  quotes.add);
 app.get('/quotes/:quoteId/comments', quotes.comments);
-app.post('/quotes/:quoteId/comments', cooldownCheckers.forIP(50, ONE_MINUTE * 5), cooldownCheckers.forSession(ONE_MINUTE, 'CommentPosting'), quotes.addComment);
-app.post('/quotes/:quoteId/vote', cooldownCheckers.forIP(25, ONE_MINUTE * 5), quotes.vote);
+app.post('/quotes/:quoteId/comments',
+  cooldownCheckers.forIP(config.cooldown.commentPosting.sessionLimit, config.cooldown.commentPosting.ipTimeout),
+  cooldownCheckers.forSession(config.cooldown.commentPosting.sessionTimeout, 'CommentPosting'),
+  quotes.addComment);
+app.post('/quotes/:quoteId/vote',
+  cooldownCheckers.forIP(25, config.cooldown.quoteVoting.ipTimeout),
+  quotes.vote);
 app.get('/quotes/:quoteId', quotes.byId);
 
 // Pages
