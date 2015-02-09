@@ -1,4 +1,4 @@
-exports.checkSessionCooldown = function(cooldown, actionName){
+exports.forSession = function(cooldown, actionName){
   return function(req, res, next){
     if(typeof req.session.lastAccess == 'undefined')
       req.session.lastAccess = {}
@@ -14,7 +14,7 @@ exports.checkSessionCooldown = function(cooldown, actionName){
   }
 }
 
-exports.checkIPCooldown = function(sessionLimit, cooldown){
+exports.forIP = function(sessionLimit, cooldown){
   var iptable = {};
   return function(req, res, next){
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;

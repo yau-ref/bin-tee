@@ -44,10 +44,10 @@ var ONE_MINUTE = 60000;
 // REST
 app.get('/quotes', quotes.all);
 app.get('/quotes/top', quotes.top);
-app.post('/quotes', cooldownCheckers.checkIPCooldown(50, ONE_MINUTE * 5), cooldownCheckers.checkSessionCooldown(ONE_MINUTE * 5, 'QuotePosting'), quotes.add);
+app.post('/quotes', cooldownCheckers.forIP(50, ONE_MINUTE * 5), cooldownCheckers.forSession(ONE_MINUTE * 5, 'QuotePosting'), quotes.add);
 app.get('/quotes/:quoteId/comments', quotes.comments);
-app.post('/quotes/:quoteId/comments', cooldownCheckers.checkIPCooldown(50, ONE_MINUTE * 5), cooldownCheckers.checkSessionCooldown(ONE_MINUTE, 'CommentPosting'), quotes.addComment);
-app.post('/quotes/:quoteId/vote', cooldownCheckers.checkIPCooldown(25, ONE_MINUTE * 5), quotes.vote);
+app.post('/quotes/:quoteId/comments', cooldownCheckers.forIP(50, ONE_MINUTE * 5), cooldownCheckers.forSession(ONE_MINUTE, 'CommentPosting'), quotes.addComment);
+app.post('/quotes/:quoteId/vote', cooldownCheckers.forIP(25, ONE_MINUTE * 5), quotes.vote);
 app.get('/quotes/:quoteId', quotes.byId);
 
 // Pages
