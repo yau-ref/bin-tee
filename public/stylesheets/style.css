@@ -147,6 +147,7 @@ select{
 .quote .voteUp,
 .quote .voteDown{
   font-weight: bold;
+  padding: 5px 5px;
 }
 
 .quote .text{
