@@ -3,42 +3,42 @@ var quotes = require('./storageAccess.js');
 exports.all = function(req, res){
   quotes.all(req.redisClient, function(quotes){
     res.json(quotes);
-  });  
+  }, sendServerError(res));
 }
 
 exports.top = function(req, res){
   quotes.top(req.redisClient, function(quotes){
     res.json(quotes);
-  });
+  }, sendServerError(res));
 }
 
 exports.byId = function(req, res){
   var quoteId = req.params.quoteId
   quotes.byId(req.redisClient, quoteId, function(quote){
     res.json(quote);
-  });
+  }, sendServerError(res));
 }
 
 exports.vote = function(req, res){
   var quoteId = req.params.quoteId
   var score = (req.body.score == 'up' ? 1 : -1)
-  if(typeof req.session.votes == 'undefined'){
+  if(typeof req.session.votes == 'undefined')
     req.session.votes = {};
-  }
   var oldScore = req.session.votes[quoteId];
   var userScore = score + (oldScore == null ? 0 : oldScore);
   if(userScore > 1 || userScore < -1){
     res.status(403).json({'err': 'Voted already'})
-  }else{
-    req.session.votes[quoteId] = userScore
-    quotes.vote(req.redisClient, quoteId, score,
-      function(quote){
-        res.json({'rating' : quote.rating})
-      },
-      function(err){
-        res.status(404).json({'err': 'No such quote: ' + quoteId})
-      });
+    return;
   }
+  req.session.votes[quoteId] = userScore
+  quotes.vote(req.redisClient, quoteId, score,
+    function(quote){
+      res.json({'rating' : quote.rating})
+    },
+    function(err){
+      //TODO: Only 404?
+      res.status(404).json({'err': 'No such quote: ' + quoteId})
+    });
 }
 
 exports.add = function(req, res){
@@ -47,12 +47,9 @@ exports.add = function(req, res){
   if(text.length < 10 && text.trim().length < 10)
     res.status(403).send('Too short');
   else
-    quotes.add(req.redisClient, text, function(err, quoteId){
-      if(!err)
-        res.json({'quoteId': quoteId})
-      else
-        res.status(500)
-    })
+    quotes.add(req.redisClient, text, function(quoteId){
+      res.json({'quoteId': quoteId})
+    }, sendServerError(res));
 }
 
 exports.comments = function(req, res){
@@ -68,9 +65,15 @@ exports.comments = function(req, res){
 }
 
 exports.addComment = function(req, res){
-  var quoteId = req.params.quoteId
-  var commentText = req.body.text
-  var redisClient = req.redisClient
-  res.end()
-  quotes.addComment(redisClient, quoteId, commentText)
+  var quoteId = req.params.quoteId;
+  var commentText = req.body.text;
+  var redisClient = req.redisClient;
+  res.end();
+  quotes.addComment(redisClient, quoteId, commentText); //TODO: Does it need to have result handlers?
+}
+
+function sendServerError(res){
+  return function(err){
+    res.status(500).end();
+  }
 }
