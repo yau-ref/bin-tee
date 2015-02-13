@@ -2,21 +2,29 @@ var DB_QUOTES = 0;
 var DB_META = 1;
 var DB_COMMENTS = 2;
 
-exports.all = function(redisClient, callback){
+exports.all = function(redisClient, callback, errHandler){
   redisClient.select(DB_QUOTES, function(){
     redisClient.keys('*', function(err, ids){
+      if(errorOccured(err, errHandler))
+        return;
       redisClient.mget(ids, function(err, quotesData){
-          callback(parseQuotes(quotesData));
+        if(errorOccured(err, errHandler))
+          return;
+        callback(parseQuotes(quotesData));
       });
     });
   });
 };
 
-exports.top = function(redisClient, callback){
+exports.top = function(redisClient, callback, errHandler){
   redisClient.select(DB_META, function(){
     redisClient.smembers("topQuotes", function(err, ids){
+      if(errorOccured(err, errHandler))
+        return;
       redisClient.select(DB_QUOTES, function(){
         redisClient.mget(ids, function(err, quotesData){
+          if(errorOccured(err, errHandler))
+            return;
           callback(parseQuotes(quotesData));
         });  
       });
@@ -24,65 +32,68 @@ exports.top = function(redisClient, callback){
   });
 };
   
-exports.byId = function(redisClient, quoteId, callback){
+exports.byId = function(redisClient, quoteId, callback, errHandler){
   redisClient.select(DB_QUOTES, function(){
     redisClient.get(quoteId, function(err, quoteData){
+      if(errorOccured(err, errHandler))
+        return;
       var quote = Array(JSON.parse(quoteData))
       callback(quote);
     });
   });
 }
 
-exports.vote = function(redisClient, quoteId, score, successCallback, errorCallback){
+exports.vote = function(redisClient, quoteId, score, callback, errHandler){
   redisClient.select(DB_QUOTES, function(){
     redisClient.get(quoteId, function(err, quoteData){
-      if(err != null){
-        errorCallback(err);
+      if(errorOccured(err, errHandler))
         return;
-      }
-      
       var quote = JSON.parse(quoteData)
       quote.rating += score
       redisClient.set(quoteId, JSON.stringify(quote))
-      
       if(quote.rating >= 100){
         redisClient.select(DB_META, function(){
-          redisClient.sadd('topQuotes', quoteId)
+          redisClient.sadd('topQuotes', quoteId, function(err){
+            if(errorOccured(err, errHandler))
+              return;
+          });
         });
       }
-      
-      successCallback(quote)
+      callback(quote)
     });
   });
 }
 
-exports.add = function(redisClient, quoteText, callback){
-  var safeQuoteText = makeItSafe(quoteText)
+exports.add = function(redisClient, quoteText, callback, errHandler){
+  var safeQuoteText = makeItSafe(quoteText);
   redisClient.select(DB_META, function(){
-    redisClient.incr('lastQuoteId', function(err, quoteId){ // TODO: ERROR HANDLING
+    redisClient.incr('lastQuoteId', function(err, quoteId){
+      if(errorOccured(err, errHandler))
+        return;
       redisClient.select(DB_QUOTES, function(){
-        var quote = JSON.stringify({id: quoteId, text: safeQuoteText, rating: 0, date: currentDate()})
-        redisClient.set(quoteId, quote);
+        var quote = JSON.stringify({id: quoteId, text: safeQuoteText, rating: 0, date: currentDate()});
+        redisClient.set(quoteId, quote, function(err){
+          if(errorOccured(err, errHandler))
+            return;
+        });
       });
-      callback(err, quoteId)
+      callback(quoteId);
     });
   });
 }
 
-exports.comments = function(redisClient, quoteId, successCallback, errorCallback){
+exports.comments = function(redisClient, quoteId, callback, errHandler){
   redisClient.select(DB_COMMENTS, function(){
     redisClient.lrange(quoteId, 0, -1, function(err, comments){
-      if(err != null){
-        errorCallback(err)
-      }else{
-        var normalizedArray = comments.map(function(quote){return JSON.parse(quote)})
-        successCallback(normalizedArray)
-      }
+      if(errorOccured(err, errHandler))
+        return;
+      var normalizedArray = comments.map(function(quote){return JSON.parse(quote)})
+      callback(normalizedArray);
     });
   });
 }
 
-exports.addComment = function(redisClient, quoteId, commentText){  
+exports.addComment = function(redisClient, quoteId, commentText){
   redisClient.select(DB_META, function(){
     redisClient.incr('lastCommentId', function(err, commentId){
       redisClient.select(DB_COMMENTS, function(){
@@ -121,4 +132,11 @@ function currentDate(){
 
 function parseQuotes(quotesData){
   return quotesData.map(function(quote){return JSON.parse(quote)}).sort(function(a,b) { return b.id - a.id});
+}
+
+function errorOccured(err, callback){
+  var occured = err != null;
+  if(occured)
+    callback(err)
+  return occured;
 }
