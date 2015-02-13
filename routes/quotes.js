@@ -22,11 +22,11 @@ exports.byId = function(req, res){
 exports.vote = function(req, res){
   var quoteId = req.params.quoteId
   var score = (req.body.score == 'up' ? 1 : -1)
-  if(!req.session.votes){
-    req.session.votes = []
-    req.session.votes[quoteId] = 0;
+  if(typeof req.session.votes == 'undefined'){
+    req.session.votes = {};
   }
-  var userScore = score + req.session.votes[quoteId];
+  var oldScore = req.session.votes[quoteId];
+  var userScore = score + (oldScore == null ? 0 : oldScore);
   if(userScore > 1 || userScore < -1){
     res.status(403).json({'err': 'Voted already'})
   }else{
